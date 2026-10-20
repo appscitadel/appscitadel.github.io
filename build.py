@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 UPDATED_AR = "20 أكتوبر 2026"
 UPDATED_EN = "October 20, 2026"
-EMAIL = "info@ofqventures.com"
+EMAIL = "contact@ofqventures.com"
 DEV_URL = "https://play.google.com/store/apps/dev?id=4751617247366509411"
 
 # package, Arabic name, English name, accent, kind ("reader" | "game"), glyph shown in the app badge
