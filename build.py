@@ -87,7 +87,7 @@ section.s ul{margin:6px 0 0;padding-inline-start:20px}section.s li{margin:4px 0}
 .no{background:color-mix(in srgb,#16a34a 12%,transparent);color:#15803d}.dev{background:var(--gold-soft);color:var(--gold-ink)}.ads{background:color-mix(in srgb,#d97706 14%,transparent);color:#b45309}
 @media (prefers-color-scheme:dark){.no{color:#4ade80}.ads{color:#fbbf24}}
 .contact{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;background:var(--text);color:var(--bg);padding:10px 18px;border-radius:var(--radius);font-weight:600;font-size:15px}.btn:hover{text-decoration:none;filter:brightness(1.07)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--text);color:var(--bg);padding:10px 18px;border-radius:var(--radius);font-weight:600;font-size:15px}.btn:hover{text-decoration:none;filter:brightness(1.07)}.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}.btn.ghost:hover{border-color:var(--gold)}
 footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding-bottom:72px}
@@ -117,10 +117,10 @@ def head(title, lang, accent, desc):
 
 def topbar(lang, other_href):
     if lang == "ar":
-        nav = f'<a href="/">التطبيقات</a><a href="https://ofqventures.com">الاستوديو</a><a href="mailto:{EMAIL}">تواصل</a>'
+        nav = f'<a href="/">التطبيقات</a><a href="https://ofqventures.com">موقع الشركة</a><a href="mailto:{EMAIL}">تواصل</a>'
         sw = f'<span class="lang"><a class="on" href="#">العربية</a><a href="{other_href}">English</a></span>'
     else:
-        nav = f'<a href="/">Apps</a><a href="https://ofqventures.com/en">Studio</a><a href="mailto:{EMAIL}">Contact</a>'
+        nav = f'<a href="/">Apps</a><a href="https://ofqventures.com/en">Company</a><a href="mailto:{EMAIL}">Contact</a>'
         sw = f'<span class="lang"><a href="{other_href}">العربية</a><a class="on" href="#">English</a></span>'
     return f"""<header class="topbar"><div class="wrap"><a class="brand" href="/"><img class="mark" src="/assets/ofq-mark-primary.svg" alt=""><b>OFQ Ventures</b></a>
 <nav class="nav">{nav}{sw if other_href else ''}</nav></div></header>"""
@@ -128,8 +128,8 @@ def topbar(lang, other_href):
 
 def footer(lang):
     if lang == "ar":
-        return f'<footer><div class="wrap"><span>© 2026 OFQ Ventures. جميع الحقوق محفوظة.</span><span><a href="/">كل التطبيقات</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span></div></footer></body></html>'
-    return f'<footer><div class="wrap"><span>© 2026 OFQ Ventures. All rights reserved.</span><span><a href="/">All apps</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span></div></footer></body></html>'
+        return f'<footer><div class="wrap"><span>© 2026 OFQ Ventures. جميع الحقوق محفوظة.</span><span><a href="https://ofqventures.com">ofqventures.com</a> · <a href="/">كل التطبيقات</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span></div></footer></body></html>'
+    return f'<footer><div class="wrap"><span>© 2026 OFQ Ventures. All rights reserved.</span><span><a href="https://ofqventures.com/en">ofqventures.com</a> · <a href="/">All apps</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span></div></footer></body></html>'
 
 
 def stored_on_device(kind, lang):
@@ -140,7 +140,7 @@ def stored_on_device(kind, lang):
 
 def privacy_ar(pkg, name, accent, kind, glyph):
     secs = [
-        ("intro", "من نحن ونطاق السياسة", f"<p>تطبيق «{name}» من تطوير <b>OFQ Ventures</b> (حساب المطوّر OFQ Labs على Google Play). توضّح هذه السياسة ما يحدث للبيانات عند استخدامك للتطبيق، وتنطبق على التطبيق فقط وليس على مواقع أو خدمات أطراف أخرى.</p>"),
+        ("intro", "من نحن ونطاق السياسة", f"<p>تطبيق «{name}» من تطوير <b><a href='https://ofqventures.com'>OFQ Ventures</a></b> (حساب المطوّر OFQ Labs على Google Play). توضّح هذه السياسة ما يحدث للبيانات عند استخدامك للتطبيق، وتنطبق على التطبيق فقط وليس على مواقع أو خدمات أطراف أخرى.</p>"),
         ("data", "البيانات التي يتعامل معها التطبيق", f"""<p>لا يتطلب التطبيق تسجيل حساب، ولا يطلب منك أي معلومات شخصية.</p>
 <table class="table"><thead><tr><th>نوع البيانات</th><th>الحالة</th><th>التفاصيل</th></tr></thead><tbody>
 <tr><td>الاسم، البريد، رقم الهاتف</td><td><span class="tag no">لا تُجمع</span></td><td>لا يوجد تسجيل دخول أو نماذج.</td></tr>
@@ -178,7 +178,7 @@ def privacy_ar(pkg, name, accent, kind, glyph):
 
 def privacy_en(pkg, name_ar, name, accent, kind, glyph):
     secs = [
-        ("intro", "Who we are and scope", f"<p>{name} ({name_ar}) is developed by <b>OFQ Ventures</b> (developer account OFQ Labs on Google Play). This policy explains what happens to data when you use the app. It covers this app only, not third-party sites or services.</p>"),
+        ("intro", "Who we are and scope", f"<p>{name} ({name_ar}) is developed by <b><a href='https://ofqventures.com/en'>OFQ Ventures</a></b> (developer account OFQ Labs on Google Play). This policy explains what happens to data when you use the app. It covers this app only, not third-party sites or services.</p>"),
         ("data", "Data the app handles", f"""<p>The app does not require an account and never asks for personal information.</p>
 <table class="table"><thead><tr><th>Data type</th><th>Status</th><th>Details</th></tr></thead><tbody>
 <tr><td>Name, email, phone number</td><td><span class="tag no">Not collected</span></td><td>No sign-in and no forms.</td></tr>
@@ -224,13 +224,13 @@ def index():
             + topbar("ar", "")
             + f"""<main class="wrap"><div class="hero"><h1>تطبيقات وألعاب عربية<br>مصمّمة باحترام لوقتك</h1>
 <p class="lead">نطوّر تطبيقات تعليمية وألعاب ذكاء عربية خفيفة، تعمل بدون إنترنت، ولا تجمع بياناتك الشخصية.</p>
-<div class="meta"><a class="btn" href="{DEV_URL}">كل تطبيقاتنا على Google Play</a></div></div>
+<div class="meta"><a class="btn" href="{DEV_URL}">كل تطبيقاتنا على Google Play</a><a class="btn ghost" href="https://ofqventures.com">موقع الشركة</a></div></div>
 <div class="apps">{cards}</div></main>""" + footer("ar"))
 
 
 def ext(html):
     """External links open in a new tab."""
-    return html.replace('<a href="http', '<a target="_blank" rel="noopener" href="http').replace('<a class="btn" href="http', '<a class="btn" target="_blank" rel="noopener" href="http')
+    return html.replace('<a href="http', '<a target="_blank" rel="noopener" href="http').replace("<a href='http", "<a target='_blank' rel='noopener' href='http").replace('<a class="btn ghost" href="http', '<a class="btn ghost" target="_blank" rel="noopener" href="http').replace('<a class="btn" href="http', '<a class="btn" target="_blank" rel="noopener" href="http')
 
 
 def main():
