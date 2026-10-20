@@ -8,7 +8,7 @@ ROOT = Path(__file__).parent
 UPDATED_AR = "20 أكتوبر 2026"
 UPDATED_EN = "October 20, 2026"
 EMAIL = "contact@ofqventures.com"
-DEV_URL = "https://play.google.com/store/apps/dev?id=4751617247366509411"
+DEV_URL = "https://play.google.com/store/apps/developer?id=OFQ+Labs"
 
 # package, Arabic name, English name, accent, kind ("reader" | "game"), glyph shown in the app badge
 APPS = [
@@ -228,14 +228,19 @@ def index():
 <div class="apps">{cards}</div></main>""" + footer("ar"))
 
 
+def ext(html):
+    """External links open in a new tab."""
+    return html.replace('<a href="http', '<a target="_blank" rel="noopener" href="http').replace('<a class="btn" href="http', '<a class="btn" target="_blank" rel="noopener" href="http')
+
+
 def main():
     (ROOT / "assets" / "site.css").write_text(CSS.strip(), encoding="utf-8")
     out = ROOT / "privacy"
     out.mkdir(exist_ok=True)
     for p, n, e, a, k, g in APPS:
-        (out / f"{p}.html").write_text(privacy_ar(p, n, a, k, g), encoding="utf-8")
-        (out / f"{p}-en.html").write_text(privacy_en(p, n, e, a, k, g), encoding="utf-8")
-    (ROOT / "index.html").write_text(index(), encoding="utf-8")
+        (out / f"{p}.html").write_text(ext(privacy_ar(p, n, a, k, g)), encoding="utf-8")
+        (out / f"{p}-en.html").write_text(ext(privacy_en(p, n, e, a, k, g)), encoding="utf-8")
+    (ROOT / "index.html").write_text(ext(index()), encoding="utf-8")
     print(f"built {len(APPS)} apps x 2 languages + index")
 
 
