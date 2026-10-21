@@ -19,16 +19,9 @@ if(from){
 }
 var qs=location.search.replace(/([?&])lang=\w+&?/,'$1').replace(/[?&]$/,'');
 [].forEach.call(d.querySelectorAll('a[data-lang]'),function(a){a.href=a.getAttribute('href').split('?')[0]+qs});
-// category filter
-var chips=[].slice.call(d.querySelectorAll('.chip'));
-chips.forEach(function(b){
-  var cat=b.dataset.cat;
-  var n=cards.filter(function(c){return !c.dataset.gone&&(cat==='all'||c.dataset.cat===cat)}).length;
-  if(!n)b.hidden=true;
-  b.addEventListener('click',function(){
-    chips.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
-    cards.forEach(function(c){c.hidden=!!c.dataset.gone||!(cat==='all'||c.dataset.cat===cat)});
-  });
+// hide category groups (and their jump links) that have nothing left to show
+[].forEach.call(d.querySelectorAll('.grp'),function(g){
+  if(!g.querySelector('.card:not([hidden])')){g.hidden=true;var l=d.querySelector('a[data-grp="'+g.id+'"]');if(l)l.hidden=true}
 });
 // bottom sheet
 var dlg=d.getElementById('sheet'),body=d.getElementById('sheet-body'),lastFocus;

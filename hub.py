@@ -25,7 +25,7 @@ T = {
         eyebrow="OFQ Ventures", h1="ألعاب عربية ممتعة من أفق",
         sub="ألغاز وكلمات وتحديات ذكاء وكرة قدم، كلها بالعربي وكلها مجانية. اختار لعبتك الجاية وابدأ.",
         count=lambda n: f"{n} لعبة وتطبيق", free="مجانية",
-        feat_h="اخترنا لك", all_h="كل ألعابنا", all_chip="الكل", chips_label="تصنيفات الألعاب",
+        feat_h="اخترنا لك", all_h="ألعابنا", apps_h="تطبيقاتنا", chips_label="انتقل إلى تصنيف",
         gp=("متوفر على", "Google Play"), ap=("حمّله من", "App Store"), wb=("العب على", "الموقع"),
         soon="قريبًا على App Store", aria_on="على", aria_site="الموقع",
         priv_h="سياسات الخصوصية", priv_p="لكل تطبيق سياسة خصوصية مستقلة، متاحة بالعربية والإنجليزية.", priv_btn="عرض سياسات الخصوصية",
@@ -41,7 +41,7 @@ T = {
         eyebrow="OFQ Ventures", h1="Fun Arabic games from OFQ",
         sub="Word games, riddles, brain teasers and football quizzes, all in Arabic and all free. Pick your next game and play.",
         count=lambda n: f"{n} games and apps", free="Free to play",
-        feat_h="Our picks", all_h="All our games", all_chip="All", chips_label="Game categories",
+        feat_h="Our picks", all_h="Our games", apps_h="Our apps", chips_label="Jump to a category",
         gp=("Get it on", "Google Play"), ap=("Download on the", "App Store"), wb=("Play on the", "Web"),
         soon="Coming soon to the App Store", aria_on="on", aria_site="the web",
         priv_h="Privacy policies", priv_p="Every app has its own privacy policy, in Arabic and English.", priv_btn="View privacy policies",
@@ -106,7 +106,7 @@ def feat_card(a, t, en, eager):
 def grid_card(a, t, en):
     nm, tg, ds, cat, attrs = common_attrs(a, t, en)
     return (f'<article class="card rv" {attrs}><a class="hit" href="{e(a["play"])}">{icon(a, nm)}'
-            f'<span><h3>{e(nm)}</h3><p class="tg">{e(tg)}</p><span class="cat">{e(cat)}</span></span></a>{stores(a, t, nm)}</article>')
+            f'<span><h3>{e(nm)}</h3><p class="tg">{e(tg)}</p></span></a>{stores(a, t, nm)}</article>')
 
 
 def hub_page(lang, apps):
@@ -115,13 +115,20 @@ def hub_page(lang, apps):
     live = sorted((a for a in apps if a["live"]), key=lambda a: a["order"])
     feat = [a for a in live if a["featured"]]
     rest = [a for a in live if not a["featured"]]
+    games = [a for a in rest if a["kind"] == "game"]
+    tools_ = [a for a in rest if a["kind"] != "game"]
     cats = []
-    for a in rest:
+    for a in games:
         if a["category"] not in cats:
             cats.append(a["category"])
-    catname = {a["category"]: a["categoryEn"] if en else a["category"] for a in rest}
-    chips = f'<button class="chip" type="button" data-cat="all" aria-pressed="true">{e(t["all_chip"])}</button>' + "".join(
-        f'<button class="chip" type="button" data-cat="{e(c)}" aria-pressed="false">{e(catname[c])}</button>' for c in cats)
+    catname = {a["category"]: a["categoryEn"] if en else a["category"] for a in games}
+    chips = "".join(f'<a class="chip" href="#c{i}" data-grp="c{i}">{e(catname[c])}</a>' for i, c in enumerate(cats))
+    groups = "".join(
+        f'<div class="grp" id="c{i}"><h3 class="gh">{e(catname[c])}</h3><div class="grid">'
+        + "".join(grid_card(a, t, en) for a in games if a["category"] == c) + "</div></div>"
+        for i, c in enumerate(cats))
+    apps_html = ('<section class="sec" id="apps" aria-labelledby="ah"><h2 id="ah">' + e(t["apps_h"]) + '</h2><div class="grid">'
+                 + "".join(grid_card(a, t, en) for a in tools_) + "</div></section>") if tools_ else ""
     fan_ids = ["timoz", "sabakalemat", "negm", "fourpicword", "ehzerla3eb"]
     byid = {a["id"]: a for a in live}
     fan = "".join(icon(byid[i], "", cls="", eager=True, size=256).replace('width="256" height="256"', 'width="76" height="76"')
@@ -174,8 +181,9 @@ def hub_page(lang, apps):
 <p class="note" id="now" role="status" hidden></p>
 <section class="sec" aria-labelledby="fh"><h2 id="fh">{e(t['feat_h'])}</h2><div class="feat">{''.join(feat_card(a, t, en, True) for a in feat)}</div></section>
 <section class="sec" aria-labelledby="gh"><h2 id="gh">{e(t['all_h'])}</h2>
-<div class="bar"><div class="chips" role="group" aria-label="{e(t['chips_label'])}">{chips}</div></div>
-<div class="grid">{''.join(grid_card(a, t, en) for a in rest)}</div></section>
+<nav class="bar" aria-label="{e(t['chips_label'])}"><div class="chips">{chips}</div></nav>
+{groups}</section>
+{apps_html}
 <section class="priv rv" aria-labelledby="ph"><h2 id="ph">{e(t['priv_h'])}</h2><p>{e(t['priv_p'])}</p><a class="btn" href="/privacy/{'en.html' if en else ''}">{e(t['priv_btn'])}</a></section>
 </main>
 <footer><div class="wrap"><a href="{COMPANY}{'/en' if en else ''}">{e(t['foot_co'])}</a><a href="mailto:{EMAIL}">{EMAIL}</a><span class="sp"></span><a href="/privacy/{'en.html' if en else ''}">{e(t['priv_h'])}</a></div></footer>
