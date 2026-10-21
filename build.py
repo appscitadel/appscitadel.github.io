@@ -10,26 +10,13 @@ UPDATED_EN = "October 20, 2026"
 EMAIL = "contact@ofqventures.com"
 DEV_URL = "https://play.google.com/store/apps/developer?id=OFQ+Labs"
 
-# package, Arabic name, English name, accent, kind ("reader" | "game"), glyph shown in the app badge
-APPS = [
-    ("fatawyibnbaz", "فتاوى ابن باز", "Fatawa Ibn Baz", "#0F5C4A", "reader", "ف"),
-    ("wasla1", "وصلة التحدي - كلمات متقاطعة", "Wasla Challenge - Crosswords", "#C2410C", "game", "و"),
-    ("sabakalemat", "سبع كلمات", "Seven Words", "#7C3AED", "game", "٧"),
-    ("asharkalemat", "عشر كلمات", "Ten Words", "#2563EB", "game", "١٠"),
-    ("hangman1", "حبل المشنقة - لعبة كلمات", "Hangman - Word Game", "#B45309", "game", "ح"),
-    ("fourpicword", "أربع صور وكلمة", "4 Pics 1 Word", "#DB2777", "game", "٤"),
-    ("logzweklma2", "لغز وكلمة - وصلة كلمات", "Riddle & Word - Word Link", "#0E7490", "game", "ل"),
-    ("abaqeragame", "تحدي العباقرة - ألغاز", "Geniuses Challenge - Riddles", "#6D28D9", "game", "ع"),
-    ("negm", "نجم - لعبة الذكاء والتسلية", "Negm - Brain Game", "#CA8A04", "game", "★"),
-    ("logzweklma1", "لغز وكلمة - كلمات متقاطعة", "Riddle & Word - Crosswords", "#0F766E", "game", "ل"),
-    ("sorteen_weklma", "صورتين وكلمة", "2 Pics 1 Word", "#BE185D", "game", "٢"),
-    ("linkit", "احزر الكلمة - وصلة التحدي", "Guess the Word - Link It", "#EA580C", "game", "؟"),
-    ("mathpuzzle", "تحدي الحساب", "Math Puzzle", "#1D4ED8", "game", "∑"),
-    ("ehzerla3eb", "احزر اللاعب - أربع صور لاعب", "Guess the Player - 4 Pics", "#15803D", "game", "⚽"),
-    ("ehzerla3eb2", "لعبة احزر اللاعب", "Guess the Player", "#166534", "game", "⚽"),
-    ("fourpicword2", "أربع صور وكلمة - فطحل الألغاز", "4 Pics 1 Word - Riddle Master", "#9D174D", "game", "٤"),
-    ("waslatahady", "وصلة التحدي", "Wasla Challenge", "#9A3412", "game", "و"),
-]
+import json
+import hub
+
+# One entry per product in apps.json. Privacy pages need every package (live or not) from the OFQ Labs account.
+# Tuple: package, Arabic name, English name, accent, kind ("reader" | "game"), glyph shown in the policy badge
+APPS = [(a["id"], a["nameAr"], a["nameEn"], a["accent"], "reader" if a["kind"] == "app" else "game", a["glyph"])
+        for a in json.loads((ROOT / "apps.json").read_text(encoding="utf8")) if a["package"].startswith("com.appscitadel.")]
 
 CSS = """
 @font-face{font-family:"Alexandria";src:url("/assets/fonts/alexandria-arabic-700-normal.woff2") format("woff2");font-weight:700;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
@@ -214,20 +201,6 @@ def privacy_en(pkg, name_ar, name, accent, kind, glyph):
 </div></div></main>""" + footer("en"))
 
 
-def index():
-    cards = "".join(
-        f'<div class="card" style="--accent:{a}"><span class="badge">{g}</span><div><div class="n">{n}</div>'
-        f'<div class="l"><a href="https://play.google.com/store/apps/details?id=com.appscitadel.{p}">Google Play</a>'
-        f'<a href="/privacy/{p}.html">سياسة الخصوصية</a></div></div></div>'
-        for p, n, _e, a, _k, g in APPS)
-    return (head("تطبيقات وألعاب OFQ Ventures", "ar", "#0F5C4A", "تطبيقات وألعاب عربية هادفة من OFQ Ventures على Google Play")
-            + topbar("ar", "")
-            + f"""<main class="wrap"><div class="hero"><h1>تطبيقات وألعاب عربية<br>مصمّمة باحترام لوقتك</h1>
-<p class="lead">نطوّر تطبيقات تعليمية وألعاب ذكاء عربية خفيفة، تعمل بدون إنترنت، ولا تجمع بياناتك الشخصية.</p>
-<div class="meta"><a class="btn" href="{DEV_URL}">كل تطبيقاتنا على Google Play</a><a class="btn ghost" href="https://ofqventures.com">موقع الشركة</a></div></div>
-<div class="apps">{cards}</div></main>""" + footer("ar"))
-
-
 def ext(html):
     """External links open in a new tab."""
     return html.replace('<a href="http', '<a target="_blank" rel="noopener" href="http').replace("<a href='http", "<a target='_blank' rel='noopener' href='http").replace('<a class="btn ghost" href="http', '<a class="btn ghost" target="_blank" rel="noopener" href="http').replace('<a class="btn" href="http', '<a class="btn" target="_blank" rel="noopener" href="http')
@@ -240,8 +213,8 @@ def main():
     for p, n, e, a, k, g in APPS:
         (out / f"{p}.html").write_text(ext(privacy_ar(p, n, a, k, g)), encoding="utf-8")
         (out / f"{p}-en.html").write_text(ext(privacy_en(p, n, e, a, k, g)), encoding="utf-8")
-    (ROOT / "index.html").write_text(ext(index()), encoding="utf-8")
-    print(f"built {len(APPS)} apps x 2 languages + index")
+    hub.write_all(json.loads((ROOT / "apps.json").read_text(encoding="utf8")))
+    print(f"built {len(APPS)} apps x 2 languages + hub + privacy index")
 
 
 if __name__ == "__main__":
