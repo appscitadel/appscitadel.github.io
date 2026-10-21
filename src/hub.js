@@ -10,7 +10,7 @@ if(from){
   gone.forEach(function(c){c.hidden=true;c.dataset.gone='1'});
   var note=d.getElementById('now');
   if(gone[0]&&note){note.textContent=(en?'You are playing ':'أنت تلعب ')+gone[0].dataset.name+(en?' right now. Here are our other games.':' الآن. وهذه ألعابنا الأخرى.');note.hidden=false}
-  [].forEach.call(d.querySelectorAll('a.sb'),function(a){
+  [].forEach.call(d.querySelectorAll('a.sb,a.get'),function(a){
     var u=a.getAttribute('href');
     if(a.classList.contains('gp'))a.href=u+'&referrer='+encodeURIComponent('utm_source=ofq_hub&utm_medium='+from);
     else if(a.classList.contains('as'))a.href=u+'?ct='+encodeURIComponent(from.slice(0,40));

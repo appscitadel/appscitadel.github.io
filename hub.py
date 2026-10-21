@@ -27,7 +27,7 @@ T = {
         count=lambda n: f"{n} لعبة وتطبيق", free="مجانية",
         feat_h="اخترنا لك", all_h="ألعابنا", apps_h="تطبيقاتنا", chips_label="انتقل إلى تصنيف",
         gp=("متوفر على", "Google Play"), ap=("حمّله من", "App Store"), wb=("العب على", "الموقع"),
-        soon="قريبًا على App Store", aria_on="على", aria_site="الموقع",
+        soon="قريبًا على App Store", install="تثبيت", soon_short="قريبًا", aria_on="على", aria_site="الموقع",
         priv_h="سياسات الخصوصية", priv_p="لكل تطبيق سياسة خصوصية مستقلة، متاحة بالعربية والإنجليزية.", priv_btn="عرض سياسات الخصوصية",
         foot_co="موقع OFQ Ventures", skip="تخطَّ إلى المحتوى", close="إغلاق", logo_alt="شعار OFQ Ventures",
         pv_title="سياسات الخصوصية | OFQ Ventures", pv_h1="سياسات الخصوصية",
@@ -43,7 +43,7 @@ T = {
         count=lambda n: f"{n} games and apps", free="Free to play",
         feat_h="Our picks", all_h="Our games", apps_h="Our apps", chips_label="Jump to a category",
         gp=("Get it on", "Google Play"), ap=("Download on the", "App Store"), wb=("Play on the", "Web"),
-        soon="Coming soon to the App Store", aria_on="on", aria_site="the web",
+        soon="Coming soon to the App Store", install="Install", soon_short="Soon", aria_on="on", aria_site="the web",
         priv_h="Privacy policies", priv_p="Every app has its own privacy policy, in Arabic and English.", priv_btn="View privacy policies",
         foot_co="OFQ Ventures website", skip="Skip to content", close="Close", logo_alt="OFQ Ventures logo",
         pv_title="Privacy policies | OFQ Ventures", pv_h1="Privacy policies",
@@ -63,8 +63,8 @@ def badge(kind, href, t, name, cls=""):
     label = f"{name} {t['aria_on']} {word}" if word else f"{name} {t['aria_on']} {t['aria_site']}"
     sym = {"gp": "i-gp", "ap": "i-as", "wb": "i-wb"}[kind]
     cls_ = {"gp": "gp", "ap": "as", "wb": "wb"}[kind]
-    return (f'<a class="sb {cls_}" href="{e(href)}" aria-label="{e(label)}" rel="noopener">'
-            f'<svg aria-hidden="true"><use href="#{sym}"/></svg><span><small>{e(cap)}</small><b>{e(big)}</b></span></a>')
+    return (f'<a class="sb {cls_}" href="{e(href)}" rel="noopener">'
+            f'<svg aria-hidden="true"><use href="#{sym}"/></svg><span><small>{e(cap)}</small><b>{e(big)}</b></span><i class="sr"> {e(name)}</i></a>')
 
 
 def stores(a, t, name):
@@ -105,8 +105,14 @@ def feat_card(a, t, en, eager):
 
 def grid_card(a, t, en):
     nm, tg, ds, cat, attrs = common_attrs(a, t, en)
+    pills = f'<a class="get gp" href="{e(a["play"])}" ">{e(t["install"])}<i class="sr"> {e(nm)}</i></a>'
+    if a["appStore"]:
+        pills += f'<a class="get as" href="{e(a["appStore"])}" ">{e(t["install"])}<i class="sr"> {e(nm)}</i></a>'
+    else:
+        pills += f'<span class="get sn">{e(t["soon_short"])}</span>'
     return (f'<article class="card rv" {attrs}><a class="hit" href="{e(a["play"])}">{icon(a, nm)}'
-            f'<span><h3>{e(nm)}</h3><p class="tg">{e(tg)}</p></span></a>{stores(a, t, nm)}</article>')
+            f'<span class="tx"><h3>{e(nm)}</h3><p class="tg">{e(tg)}</p></span></a>{pills}'
+            f'{stores(a, t, nm)}</article>')
 
 
 def hub_page(lang, apps):
