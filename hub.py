@@ -247,8 +247,12 @@ def privacy_index(lang, apps):
 
 
 def write_all(apps):
-    (ROOT / "index.html").write_text(hub_page("ar", apps), encoding="utf8")
+    # index.html, product.html, app.js, data.js, style.css are the hand-built redesign
+    # (source: C:/Users/agamy/sites/ofq-ventures-redesign/dist); /en/ only redirects to it.
     (ROOT / "en").mkdir(exist_ok=True)
-    (ROOT / "en" / "index.html").write_text(hub_page("en", apps), encoding="utf8")
+    (ROOT / "en" / "index.html").write_text(
+        '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=/?lang=en">'
+        '<link rel="canonical" href="/?lang=en"><script>location.replace("/?lang=en"+location.hash)</script>',
+        encoding="utf8")
     (ROOT / "privacy" / "index.html").write_text(privacy_index("ar", apps), encoding="utf8")
     (ROOT / "privacy" / "en.html").write_text(privacy_index("en", apps), encoding="utf8")
