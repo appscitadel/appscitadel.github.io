@@ -1,4 +1,4 @@
-"""Builds the OFQ Ventures apps site: index.html + privacy/<package>.html.
+"""Builds privacy pages and the /en/ redirect without writing index.html.
 
 Run: python -X utf8 build.py
 """
@@ -18,72 +18,69 @@ import hub
 APPS = [(a["id"], a["nameAr"], a["nameEn"], a["accent"], "reader" if a["kind"] == "app" else "game", a["glyph"])
         for a in json.loads((ROOT / "apps.json").read_text(encoding="utf8")) if a["package"].startswith("com.appscitadel.")]
 
+SUBSET_FONTS = (
+    "ibm-plex-sans-arabic-arabic-400-normal", "ibm-plex-sans-arabic-arabic-600-normal",
+    "alexandria-arabic-700-normal", "manrope-latin-400-normal",
+    "manrope-latin-600-normal", "manrope-latin-700-normal",
+)
+
+
+def font_href(name):
+    # Without optional build dependencies, use the original complete fonts.
+    try:
+        import fontTools
+    except ImportError:
+        return f"/assets/fonts/{name}.woff2"
+    file = ROOT / "assets" / "fonts" / f"{name}-subset.woff2"
+    return f"/assets/fonts/{name}-subset.woff2" if name in SUBSET_FONTS and file.is_file() else f"/assets/fonts/{name}.woff2"
+
+
+def prepare_font_subsets():
+    try:
+        from fontTools import subset
+        from fontTools.ttLib import TTFont
+    except ImportError:
+        print("fontTools unavailable; using original complete fonts")
+        return
+    text = "".join((ROOT / name).read_text(encoding="utf8") for name in ("build.py", "hub.py", "apps.json"))
+    unicodes = set(range(32, 127)) | set(range(0x600, 0x660)) | {ord(c) for c in text}
+    for name in SUBSET_FONTS:
+        font = TTFont(ROOT / "assets" / "fonts" / f"{name}.woff2", recalcTimestamp=False)
+        options = subset.Options()
+        options.flavor = "woff2"
+        options.layout_features = ["*"]
+        sub = subset.Subsetter(options=options)
+        sub.populate(unicodes=unicodes)
+        sub.subset(font)
+        font.save(ROOT / "assets" / "fonts" / f"{name}-subset.woff2")
+
+
 CSS = """
-@font-face{font-family:"Alexandria";src:url("/assets/fonts/alexandria-arabic-700-normal.woff2") format("woff2");font-weight:700;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Alexandria";src:url("/assets/fonts/alexandria-arabic-600-normal.woff2") format("woff2");font-weight:600;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Alexandria";src:url("/assets/fonts/alexandria-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F}
-@font-face{font-family:"Alexandria";src:url("/assets/fonts/alexandria-latin-600-normal.woff2") format("woff2");font-weight:600;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F}
-@font-face{font-family:"Plex Arabic";src:url("/assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2") format("woff2");font-weight:400;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Plex Arabic";src:url("/assets/fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2") format("woff2");font-weight:500;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Plex Arabic";src:url("/assets/fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2") format("woff2");font-weight:600;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
-@font-face{font-family:"Manrope";src:url("/assets/fonts/manrope-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"Manrope";src:url("/assets/fonts/manrope-latin-600-normal.woff2") format("woff2");font-weight:500 600;font-display:swap}
-@font-face{font-family:"Manrope";src:url("/assets/fonts/manrope-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
-:root{--bg:#F5F1E8;--surface:#FBF9F4;--surface-2:#F1ECE2;--text:#171814;--muted:#5E6059;--line:#DDD4C5;--gold:#B77A19;--gold-ink:#8C5A10;--gold-soft:color-mix(in srgb,#B77A19 11%,transparent);--accent:#0F5C4A;--radius:8px;--shadow:0 1px 2px rgba(23,24,20,.04),0 10px 30px rgba(23,24,20,.05);--display:"Alexandria","Manrope","Plex Arabic",system-ui,sans-serif;--body:"Manrope","Plex Arabic",system-ui,sans-serif}
-@media (prefers-color-scheme:dark){:root{--bg:#181A16;--surface:#1F211C;--surface-2:#23251F;--text:#F1ECE2;--muted:#A8A699;--line:rgba(255,253,248,.13);--gold-ink:#D9A94C;--gold-soft:color-mix(in srgb,#B77A19 22%,transparent);--shadow:none}}
-*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--text);font:400 16.5px/1.95 var(--body);-webkit-font-smoothing:antialiased}
-a{color:var(--gold-ink);text-decoration:none;text-underline-offset:3px}a:hover{text-decoration:underline}
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-.topbar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
-.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-.brand{display:flex;align-items:center;gap:10px;color:var(--text);font-weight:600;letter-spacing:.2px}.brand:hover{text-decoration:none}
-.mark{width:30px;height:30px;display:block}.brand b{font-family:var(--display);font-weight:700;letter-spacing:.3px}
-.nav{display:flex;gap:6px}.nav a{color:var(--muted);font-size:14.5px;padding:7px 12px;border-radius:999px}.nav a:hover{background:var(--gold-soft);color:var(--text);text-decoration:none}
-.hero{padding:56px 0 28px}
-.app{display:flex;align-items:center;gap:16px;margin-bottom:22px}
-.badge{width:60px;height:60px;border-radius:16px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:26px;font-weight:600;box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 35%,transparent)}
-.app .name{font-weight:600;font-size:18px;line-height:1.4}.app .pkg{color:var(--muted);font-size:13.5px;direction:ltr;text-align:start;unicode-bidi:plaintext}
-h1{font-family:var(--display);font-size:clamp(30px,4.2vw,44px);line-height:1.3;margin:0 0 12px;font-weight:700}
-.lead{color:var(--muted);font-size:17.5px;max-width:680px;margin:0}
-.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-.pill{font-size:13.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);padding:5px 12px;border-radius:999px}
-.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
-.lang a{font-size:13.5px;padding:5px 14px;border-radius:999px;color:var(--muted)}.lang a.on{background:var(--text);color:var(--bg)}.lang a:hover{text-decoration:none}
-.grid{display:grid;grid-template-columns:240px 1fr;gap:40px;align-items:start;padding-bottom:72px}
-.toc{position:sticky;top:88px;font-size:14.5px}
-.toc .t{font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:.4px;margin-bottom:10px}
-.toc ol{list-style:none;margin:0;padding:0;border-inline-start:2px solid var(--line)}
-.toc li a{display:block;padding:6px 14px;color:var(--muted);margin-inline-start:-2px;border-inline-start:2px solid transparent}
-.toc li a:hover{color:var(--text);border-color:var(--gold);text-decoration:none}
-.summary{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 28px;margin-bottom:28px}
-.summary h2{margin:0 0 14px;font-size:18px;font-family:var(--display)}
-.points{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.point{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
-.point svg{width:22px;height:22px;color:var(--gold-ink);margin-bottom:6px}
-.point b{display:block;font-weight:600;font-size:15.5px;line-height:1.5}.point span{color:var(--muted);font-size:14px;line-height:1.7}
-section.s{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px 28px;margin-bottom:16px;scroll-margin-top:84px}
-section.s h2{display:flex;align-items:center;gap:12px;margin:0 0 10px;font-size:19px;font-weight:600;line-height:1.5;font-family:var(--display)}
-.num{flex:none;width:30px;height:30px;border-radius:9px;background:var(--gold-soft);color:var(--gold-ink);display:grid;place-items:center;font-size:14px;font-family:var(--display);font-weight:600}
-section.s p{margin:0 0 10px;color:var(--text)}section.s p:last-child{margin-bottom:0}
-section.s ul{margin:6px 0 0;padding-inline-start:20px}section.s li{margin:4px 0}section.s li::marker{color:var(--gold)}
-.table{width:100%;border-collapse:separate;border-spacing:0;margin-top:8px;font-size:15px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-.table th,.table td{padding:12px 14px;text-align:start;vertical-align:top;border-bottom:1px solid var(--line)}
-.table th{background:var(--surface-2);font-weight:600;font-size:13.5px;color:var(--muted)}.table tr:last-child td{border-bottom:0}
-.tag{display:inline-block;font-size:12.5px;padding:2px 10px;border-radius:999px;font-weight:500;white-space:nowrap}
-.no{background:color-mix(in srgb,#16a34a 12%,transparent);color:#15803d}.dev{background:var(--gold-soft);color:var(--gold-ink)}.ads{background:color-mix(in srgb,#d97706 14%,transparent);color:#b45309}
-@media (prefers-color-scheme:dark){.no{color:#4ade80}.ads{color:#fbbf24}}
-.contact{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;background:var(--text);color:var(--bg);padding:10px 18px;border-radius:var(--radius);font-weight:600;font-size:15px}.btn:hover{text-decoration:none;filter:brightness(1.07)}.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}.btn.ghost:hover{border-color:var(--gold)}
-footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:14px}
-footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding-bottom:72px}
-.card{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);transition:transform .15s ease,border-color .15s ease}
-.card:hover{transform:translateY(-2px);border-color:var(--gold)}
-.card .badge{width:48px;height:48px;border-radius:13px;font-size:21px;box-shadow:none}
-.card .n{font-weight:600;font-family:var(--display);font-size:15.5px;line-height:1.5;color:var(--text)}
-.card .l{display:flex;gap:14px;font-size:13.5px}
-@media (max-width:860px){body{overflow-x:hidden}.nav>a{display:none}.wrap{padding:0 18px}.app .pkg{word-break:break-all}.table thead{display:none}.table,.table tbody,.table tr,.table td{display:block;width:100%}.table tr{padding:12px 14px;border-bottom:1px solid var(--line)}.table tr:last-child{border-bottom:0}.table td{border:0;padding:3px 0}.table td:first-child{font-weight:600}.contact .btn{width:100%;justify-content:center}.grid{grid-template-columns:1fr}.toc{display:none}.points{grid-template-columns:1fr}section.s,.summary{padding:22px 20px}.hero{padding-top:36px}}
+@font-face{font-family:OFQText;src:url('/assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2') format('woff2');font-weight:400;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:OFQText;src:url('/assets/fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2') format('woff2');font-weight:600;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:OFQText;src:url('/assets/fonts/manrope-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:OFQText;src:url('/assets/fonts/manrope-latin-600-normal.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:OFQText;src:url('/assets/fonts/manrope-latin-700-normal.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:OFQDisplay;src:url('/assets/fonts/alexandria-arabic-600-normal.woff2') format('woff2');font-weight:600;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:OFQDisplay;src:url('/assets/fonts/alexandria-arabic-700-normal.woff2') format('woff2');font-weight:700;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:OFQDisplay;src:url('/assets/fonts/manrope-latin-700-normal.woff2') format('woff2');font-weight:700;font-display:swap}
+:root{--green:#075844;--ink:#183d32;--text:#183d32;--muted:#53675b;--mint:#f0f5ec;--line:#dce5d7;--gold:#d1a541;--paper:#fffefb;--surface:#fff;--radius:16px;--text-xs:13px;--text-sm:15px;--text-base:16px;--text-lg:18px;--heading-sm:clamp(18px,1.5vw,21px);--heading-md:clamp(23px,2.5vw,32px);--heading-lg:clamp(28px,3.6vw,46px);--body:OFQText,Arial,sans-serif;--display:OFQDisplay,Arial,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:80px;-webkit-text-size-adjust:100%}body{margin:0;background:var(--paper);color:var(--ink);font:400 var(--text-base)/1.7 var(--body);font-synthesis:none;-webkit-font-smoothing:antialiased}a{color:var(--green);text-decoration:none;text-underline-offset:4px}a:hover{text-decoration:underline}a,summary{touch-action:manipulation;-webkit-tap-highlight-color:transparent}a:focus-visible,summary:focus-visible{outline:3px solid #a76f10;outline-offset:4px}img{display:block;max-width:100%}svg{flex:none}b,strong{font-weight:600}html[lang=en] b,html[lang=en] strong{font-weight:700}h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.5}html[lang=en] h1,html[lang=en] h2,html[lang=en] h3{font-weight:700;line-height:1.3}.wrap{width:min(1200px,calc(100% - 80px));margin-inline:auto}.skip{position:fixed;top:-100px;inset-inline-start:16px;padding:12px 20px;background:#fff;z-index:100}.skip:focus{top:0}
+.topbar{position:sticky;top:0;z-index:30;background:#fffefbf5;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}.topbar>.wrap{height:60px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:inline-flex;flex:none;align-items:center;direction:ltr;min-height:44px}.brand img{width:100px;height:36px;object-fit:contain}.nav{display:flex;align-items:center;gap:28px}.nav>a{min-height:44px;display:flex;align-items:center;font-size:15px;font-weight:600;color:var(--ink)}html[lang=en] .nav>a{font-weight:700}.nav-actions{display:flex;align-items:center;gap:8px}.language{display:inline-flex;justify-content:center;align-items:center;min-height:44px;border:1px solid var(--line);border-radius:30px;padding:8px 16px;font-size:13px;color:var(--ink);white-space:nowrap}.language:hover{background:var(--mint);text-decoration:none}.mobile-nav{display:none}.mobile-nav summary{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--line);border-radius:10px;list-style:none;cursor:pointer}.mobile-nav summary::-webkit-details-marker{display:none}.mobile-nav summary svg{width:21px;height:21px}.mobile-links{position:absolute;top:100%;inset-inline:0;padding:16px 18px;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 12px 20px #183d3210;display:grid}.mobile-links a{display:flex;align-items:center;min-height:48px;padding:8px 12px;border-radius:8px;color:var(--ink)}.mobile-links a:hover{background:var(--mint)}
+.hero{padding:44px 0 32px;max-width:calc(74ch + 246px);padding-inline-start:246px;margin-inline:auto}.app{display:flex;align-items:center;gap:14px;margin-bottom:24px;min-width:0}.badge{width:52px;height:52px;border-radius:14px;background:var(--accent,var(--green));color:white;display:grid;place-items:center;font-size:24px;font-weight:600;flex:none}.app .name{font-size:18px;font-weight:600;line-height:1.6}.app .pkg{font-size:13px;color:var(--muted);direction:ltr;text-align:start;unicode-bidi:plaintext;overflow-wrap:anywhere}h1{font-size:var(--heading-lg);font-weight:700;margin:0 0 14px}.lead{font-size:var(--text-lg);color:var(--muted);margin:0;max-width:70ch}.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.pill{font-size:13px;line-height:1.7;color:var(--muted);background:var(--mint);border:1px solid var(--line);padding:5px 12px;border-radius:999px}.grid{display:grid;grid-template-columns:210px minmax(0,74ch);gap:36px;align-items:start;justify-content:center;padding-bottom:64px}.grid>div{min-width:0}.toc{position:sticky;top:88px;font-size:15px;line-height:1.7}.toc .t{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px}.toc ol{list-style:none;margin:0;padding:0;border-inline-start:2px solid var(--line)}.toc li a{display:flex;align-items:center;min-height:44px;padding:8px 14px;color:var(--muted);margin-inline-start:-2px;border-inline-start:2px solid transparent}.toc li a:hover{color:var(--green);border-color:var(--green);text-decoration:none}.summary{padding:24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--mint);margin-bottom:32px}.summary h2{font-size:var(--heading-sm);margin:0 0 18px}.points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.point svg{width:23px;height:23px;color:var(--green);margin-bottom:8px}.point b{display:block;font-size:16px;line-height:1.7}.point span{display:block;color:var(--muted);font-size:15px;line-height:1.7;margin-top:5px}section.s{padding:0 0 28px;margin-bottom:28px;border-bottom:1px solid var(--line);scroll-margin-top:84px}section.s:last-child{margin-bottom:0;border-bottom:0;padding-bottom:0}section.s h2{display:flex;align-items:flex-start;gap:12px;margin:0 0 16px;font-size:var(--heading-sm)}.num{flex:none;min-width:30px;height:30px;border-radius:8px;background:var(--mint);color:var(--green);display:grid;place-items:center;font:600 15px/1 var(--display)}html[lang=en] .num{font-weight:700}section.s p{margin:0 0 14px}section.s p:last-child{margin-bottom:0}section.s ul{margin:10px 0 0;padding-inline-start:23px}section.s li{margin:8px 0}section.s li::marker{color:var(--green)}section.s a:not(.btn){text-decoration:underline}section.s h3{font-size:18px;margin:24px 0 12px}.table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;margin-top:16px;font-size:15px;border:1px solid var(--line);border-radius:12px;overflow:hidden}.table th,.table td{padding:14px;text-align:start;vertical-align:top;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.table th{background:var(--mint);font-size:13px;font-weight:600;color:var(--muted)}.table tr:last-child td{border-bottom:0}.tag{display:inline-block;font-size:13px;padding:3px 8px;border-radius:8px;line-height:1.7}.no{background:#edf6ed;color:#226234}.dev{background:#eef2ec;color:#31523c}.ads{background:#fff1dd;color:#80501a}.contact{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}.contact p{flex:1 1 240px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;background:var(--green);color:white;padding:10px 18px;border-radius:10px;font-size:15px;font-weight:600;max-width:100%;overflow-wrap:anywhere}.btn svg{flex:none}.btn:hover{background:#0c4435;text-decoration:none}html[lang=en] .btn,html[lang=en] .pn,html[lang=en] .app .name,html[lang=en] .toc .t,html[lang=en] .table th{font-weight:700}
+footer{border-top:1px solid var(--line);background:var(--paper)}.footer-top{display:flex;align-items:center;flex-wrap:wrap;gap:30px;padding-block:28px}.footer-top>.brand{margin:0}.footer-top>a:nth-child(2){margin-inline-start:auto}.footer-top>a:not(.brand){display:flex;align-items:center;min-height:44px;font-size:15px}.footer-bottom>a{display:inline-flex;align-items:center;min-height:44px}.footer-bottom{align-items:center;display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-block:20px;font-size:13px;color:var(--muted)}
+.privacy-index{padding-block:44px 64px}.privacy-index>p{margin:0;color:var(--muted);font-size:18px;max-width:65ch}.list{list-style:none;margin:28px 0 24px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.pr{display:flex;align-items:center;flex-wrap:wrap;gap:14px;padding:20px;border-radius:var(--radius);border:1px solid var(--line);background:#fff;min-width:0}.pr .ic{width:48px;height:48px;object-fit:contain;border-radius:12px;flex:none}.pn{flex:1 1 150px;font-size:16px;font-weight:600;line-height:1.7}.pl{display:flex;gap:8px;margin-inline-start:auto}.pl a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;font-size:15px}.pl a:hover{background:var(--mint);text-decoration:none}.back{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;font-size:15px}
+@media(max-width:1000px){.hero{max-width:calc(74ch + 208px);padding-inline-start:208px}.grid{grid-template-columns:180px minmax(0,1fr);gap:28px}.nav{gap:20px}.points{grid-template-columns:1fr}.point{display:grid;grid-template-columns:24px 1fr;column-gap:12px}.point svg{grid-row:1/3;margin-top:2px}.point span{grid-column:2}.point b{grid-column:2}}
+@media(max-width:860px){.wrap{width:calc(100% - 48px)}.nav{display:none}.mobile-nav{display:block}.grid{grid-template-columns:minmax(0,74ch)}.toc{display:none}.list{grid-template-columns:1fr}.hero{max-width:none;padding-inline-start:0;margin-inline:0}.table th,.table td{padding:12px}}
+@media(max-width:600px){.wrap{width:calc(100% - 36px)}.topbar>.wrap{height:56px;gap:12px}.topbar .brand img{width:89px;height:32px}.hero{padding-top:30px;padding-bottom:28px}.app{gap:12px;margin-bottom:22px}.badge{width:48px;height:48px}.app .name{font-size:16px}.lead{font-size:16px}.grid{padding-bottom:44px}.summary{padding:20px;margin-bottom:28px}.points{gap:18px}section.s{padding-bottom:24px;margin-bottom:24px}.table thead{display:none}.table,.table tbody,.table tr,.table td{display:block;width:100%}.table tr{padding:14px;border-bottom:1px solid var(--line)}.table tr:last-child{border-bottom:0}.table td{border:0;padding:4px 0}.table td:first-child{font-weight:600}.table td:nth-child(2){margin-block:3px}.contact .btn{width:100%;font-size:15px}.footer-top{padding-block:24px;gap:8px 20px}.footer-top>.brand{width:100%;margin-bottom:6px}.footer-top>a:nth-child(2){margin:0}.footer-bottom{flex-direction:column;gap:8px}.privacy-index{padding-block:30px 44px}.privacy-index>p{font-size:16px}.pr{padding:18px;gap:12px}.pn{flex-basis:calc(100% - 60px)}.pl{width:100%;margin:0}.pl a{flex:1}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* Pass 3: current OFQ palette and shared contact/footer composition. */
+:root{--green:#8c5a10;--ink:#171814;--muted:#5e6059;--mint:#eee8dd;--line:#ddd4c5;--paper:#fbf9f4;--radius:20px;--shadow:0 18px 44px #17181412}
+body{background:var(--paper)}bdi{unicode-bidi:isolate}.hero{border-bottom:1px solid var(--line);margin-bottom:32px;padding-bottom:32px}.app .badge{border-radius:12px}.summary{background:#f5f1e8;padding:28px}.toc ol{border-color:var(--line)}.toc li a:hover{color:var(--green);border-color:var(--green)}.btn{background:var(--green);border-radius:10px}.btn:hover{background:#734a0d}.contact-extra{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:16px}.contact-extra a{min-height:44px;display:inline-flex;align-items:center;font-size:15px;font-weight:600}.pr{background:#fffdf8;border-radius:16px}.list{gap:14px}.pr:hover{border-color:#c8bda9}.privacy-index>h1{margin-bottom:18px}.privacy-index>p{max-width:65ch}.topbar{background:var(--paper)}
+footer{background:#f5f1e8}.footer-top{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px;padding-block:40px}.footer-brand p{font-size:16px;color:var(--muted);margin:16px 0 0}.footer-contact,.footer-nav{display:grid;align-content:start}.footer-contact a,.footer-nav a{display:flex;align-items:center;min-height:44px;font-size:15px;width:fit-content;max-width:100%;overflow-wrap:anywhere}.footer-bottom{padding-block:22px;align-items:center}.footer-top a:hover{color:var(--green)}
+@media(max-width:860px){.footer-top{grid-template-columns:1fr 1fr;gap:24px}.footer-brand{grid-column:1/-1}}
+@media(max-width:600px){.hero{padding-top:30px;padding-bottom:28px;margin-bottom:24px}.summary{padding:22px}.footer-top{grid-template-columns:1fr;gap:22px;padding-block:30px}.footer-brand{grid-column:auto}.footer-brand p{margin-top:10px}.footer-bottom{align-items:start}.contact-extra{gap:8px 20px}.contact-extra a{font-size:15px}}
+
 """
 
 MARK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F3E2B5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 15.4 6.8 18.1l1-5.8L3.5 8.2l5.9-.9z"/></svg>'
@@ -95,28 +92,46 @@ ICON_MAIL = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke=
 
 def head(title, lang, accent, desc):
     d = "rtl" if lang == "ar" else "ltr"
+    font = "ibm-plex-sans-arabic-arabic-400-normal" if lang == "ar" else "manrope-latin-400-normal"
+    heading_font = "alexandria-arabic-700-normal" if lang == "ar" else "manrope-latin-700-normal"
     return f"""<!doctype html><html lang="{lang}" dir="{d}"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f1e8">
 <title>{title}</title><meta name="description" content="{desc}">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/favicon-180.png"><link rel="preload" href="/assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css"><style>:root{{--accent:{accent}}}</style></head><body>"""
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/favicon-180.png">
+<link rel="preload" href="{font_href(font)}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{font_href(heading_font)}" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">{{"@context":"https://schema.org","@type":"Organization","name":"OFQ Ventures","url":"https://ofqventures.com","email":"contact@ofqventures.com","telephone":"+201500002663"}}</script><link rel="stylesheet" href="/assets/site.css"><style>:root{{--accent:{accent}}}</style></head><body>"""
 
 
 def topbar(lang, other_href):
-    if lang == "ar":
-        nav = f'<a href="/">التطبيقات</a><a href="https://ofqventures.com">موقع الشركة</a><a href="mailto:{EMAIL}">تواصل</a>'
-        sw = f'<span class="lang"><a class="on" href="#">العربية</a><a href="{other_href}">English</a></span>'
-    else:
-        nav = f'<a href="/">Apps</a><a href="https://ofqventures.com/en">Company</a><a href="mailto:{EMAIL}">Contact</a>'
-        sw = f'<span class="lang"><a href="{other_href}">العربية</a><a class="on" href="#">English</a></span>'
-    return f"""<header class="topbar"><div class="wrap"><a class="brand" href="/"><img class="mark" src="/assets/ofq-mark-primary.svg" alt=""><b>OFQ Ventures</b></a>
-<nav class="nav">{nav}{sw if other_href else ''}</nav></div></header>"""
+    en = lang == "en"
+    home = "/?lang=en" if en else "/?lang=ar"
+    labels = ("Services", "Products", "About OFQ", "Contact") if en else ("خدماتنا", "منتجاتنا", "عن أفق", "تواصل معنا")
+    nav = "".join(f'<a href="{home}#{anchor}">{label}</a>' for anchor, label in zip(("services", "games", "about"), labels))
+    nav += f'<a href="{home}#contact">{labels[3]}</a>'
+    switch = "العربية" if en else "English"
+    other = "ar" if en else "en"
+    menu = "Open menu" if en else "فتح القائمة"
+    skip = "Skip to content" if en else "تخطَّ إلى المحتوى"
+    return f"""<a class="skip" href="#intro">{skip}</a><header class="topbar"><div class="wrap">
+<a class="brand" href="{home}" aria-label="OFQ Ventures"><img src="/assets/ofq-lockup.svg" width="100" height="36" alt="OFQ Ventures"></a>
+<nav class="nav" aria-label="{'Main navigation' if en else 'القائمة الرئيسية'}">{nav}</nav>
+<div class="nav-actions"><a class="language" href="{other_href}" hreflang="{other}" lang="{other}">{switch}</a>
+<details class="mobile-nav"><summary aria-label="{menu}"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary><nav class="mobile-links" aria-label="{menu}">{nav}</nav></details></div>
+</div></header>"""
 
 
 def footer(lang):
-    if lang == "ar":
-        return f'<footer><div class="wrap"><span>© 2026 OFQ Ventures. جميع الحقوق محفوظة.</span><span><a href="https://ofqventures.com">ofqventures.com</a> · <a href="/">كل التطبيقات</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span></div></footer></body></html>'
-    return f'<footer><div class="wrap"><span>© 2026 OFQ Ventures. All rights reserved.</span><span><a href="https://ofqventures.com/en">ofqventures.com</a> · <a href="/">All apps</a> · <a href="mailto:{EMAIL}">{EMAIL}</a></span></div></footer></body></html>'
+    en = lang == "en"
+    home = "/?lang=en" if en else "/?lang=ar"
+    policies = "/privacy/en.html" if en else "/privacy/"
+    rights = "All rights reserved." if en else "جميع الحقوق محفوظة."
+    label = "Privacy policies" if en else "سياسات الخصوصية"
+    company = "OFQ Ventures website" if en else "موقع OFQ Ventures"
+    products = "Products" if en else "منتجاتنا"
+    wa = "Chat on WhatsApp" if en else "تواصل على واتساب"
+    return f'<footer><div class="wrap footer-top"><div class="footer-brand"><a class="brand" href="{home}" aria-label="OFQ Ventures"><img src="/assets/ofq-lockup.svg" width="100" height="36" alt="OFQ Ventures" loading="lazy" decoding="async"></a><p>{"Software and products by OFQ" if en else "برمجيات ومنتجات من أفق"}</p></div><div class="footer-contact"><a href="mailto:{EMAIL}"><bdi dir="ltr">{EMAIL}</bdi></a><a href="tel:+201500002663"><bdi dir="ltr">+20 150 000 2663</bdi></a><a href="https://wa.me/201500002663">{wa}</a></div><div class="footer-nav"><a href="{home}#games">{products}</a><a href="{policies}">{label}</a><a href="https://ofqventures.com{"/en" if en else ""}">{company}</a></div></div><div class="wrap footer-bottom"><span>© 2026 OFQ Ventures. {rights}</span><span>Android · Web</span></div></footer></body></html>'
+
 
 
 def stored_on_device(kind, lang):
@@ -159,7 +174,7 @@ def privacy_ar(pkg, name, accent, kind, glyph):
 <div class="point">{ICON_PHONE}<b>بياناتك على جهازك</b><span>تقدّمك وإعداداتك محفوظة محليًا فقط.</span></div>
 <div class="point">{ICON_SHIELD}<b>إعلانات Google بموافقتك</b><span>نموذج موافقة حيث يلزم، وتقدر تغيّره أي وقت.</span></div>
 </div></div>{body}
-<section class="s" id="contact"><h2><span class="num">{len(secs)+1}</span>التواصل</h2><div class="contact"><p>لأي سؤال أو طلب بخصوص الخصوصية يسعدنا تواصلك.</p><a class="btn" href="mailto:{EMAIL}?subject={name}">{ICON_MAIL}{EMAIL}</a></div></section>
+<section class="s" id="contact"><h2><span class="num">{len(secs)+1}</span>التواصل</h2><div class="contact"><p>لأي سؤال أو طلب بخصوص الخصوصية يسعدنا تواصلك.</p><a class="btn" href="mailto:{EMAIL}?subject={name}">{ICON_MAIL}{EMAIL}</a></div><div class="contact-extra" data-contact-chrome><a href="tel:+201500002663"><bdi dir="ltr">+20 150 000 2663</bdi></a><a href="https://wa.me/201500002663">تواصل على واتساب</a></div></section>
 </div></div></main>""" + footer("ar"))
 
 
@@ -197,7 +212,7 @@ def privacy_en(pkg, name_ar, name, accent, kind, glyph):
 <div class="point">{ICON_PHONE}<b>Your data stays on your device</b><span>Progress and settings are stored locally only.</span></div>
 <div class="point">{ICON_SHIELD}<b>Google ads, with your consent</b><span>Consent form where required, changeable anytime.</span></div>
 </div></div>{body}
-<section class="s" id="contact"><h2><span class="num">{len(secs)+1}</span>Contact</h2><div class="contact"><p>Questions or requests about privacy? We're happy to help.</p><a class="btn" href="mailto:{EMAIL}?subject={name}">{ICON_MAIL}{EMAIL}</a></div></section>
+<section class="s" id="contact"><h2><span class="num">{len(secs)+1}</span>Contact</h2><div class="contact"><p>Questions or requests about privacy? We're happy to help.</p><a class="btn" href="mailto:{EMAIL}?subject={name}">{ICON_MAIL}{EMAIL}</a></div><div class="contact-extra" data-contact-chrome><a href="tel:+201500002663"><bdi dir="ltr">+20 150 000 2663</bdi></a><a href="https://wa.me/201500002663">Chat on WhatsApp</a></div></section>
 </div></div></main>""" + footer("en"))
 
 
@@ -206,15 +221,47 @@ def ext(html):
     return html.replace('<a href="http', '<a target="_blank" rel="noopener" href="http').replace("<a href='http", "<a target='_blank' rel='noopener' href='http").replace('<a class="btn ghost" href="http', '<a class="btn ghost" target="_blank" rel="noopener" href="http').replace('<a class="btn" href="http', '<a class="btn" target="_blank" rel="noopener" href="http')
 
 
+def privacy_icons(apps):
+    """Optional Pillow optimization; policies still build without extra dependencies.
+
+    App originals stay untouched. The privacy index uses these small responsive
+    WebPs when available and otherwise falls back to the original app icon.
+    """
+    try:
+        from PIL import Image
+    except ImportError:
+        print("Pillow not installed: privacy index uses original app icons")
+        return
+    out = ROOT / "privacy" / "icons"
+    out.mkdir(parents=True, exist_ok=True)
+    for app in apps:
+        if not app["package"].startswith("com.appscitadel.") or not app["icon"]:
+            continue
+        source = ROOT / app["icon"]
+        if not source.is_file():
+            continue
+        with Image.open(source) as original:
+            original.load()
+            for size in (96, 192):
+                image = original.convert("RGBA")
+                image.thumbnail((size, size), Image.Resampling.LANCZOS)
+                image.save(out / f"{app['id']}-{size}.webp", "WEBP", quality=80, method=6)
+
+
 def main():
-    (ROOT / "assets" / "site.css").write_text(CSS.strip(), encoding="utf-8")
+    privacy_icons(json.loads((ROOT / "apps.json").read_text(encoding="utf8")))
+    prepare_font_subsets()
+    css = CSS
+    for name in SUBSET_FONTS:
+        css = css.replace(f"/assets/fonts/{name}.woff2", font_href(name))
+    (ROOT / "assets" / "site.css").write_text(css.strip(), encoding="utf-8")
     out = ROOT / "privacy"
     out.mkdir(exist_ok=True)
     for p, n, e, a, k, g in APPS:
         (out / f"{p}.html").write_text(ext(privacy_ar(p, n, a, k, g)), encoding="utf-8")
         (out / f"{p}-en.html").write_text(ext(privacy_en(p, n, e, a, k, g)), encoding="utf-8")
     hub.write_all(json.loads((ROOT / "apps.json").read_text(encoding="utf8")))
-    print(f"built {len(APPS)} apps x 2 languages + hub + privacy index")
+    print(f"built {len(APPS)} apps x 2 languages + privacy indexes + /en/ redirect; index.html untouched")
 
 
 if __name__ == "__main__":
