@@ -140,6 +140,40 @@ def stored_on_device(kind, lang):
     return "favourites, last read item and reading settings (font size, theme)" if kind == "reader" else "level progress, points and settings (sound, theme)"
 
 
+
+def sabakalemat_platform_policy(html, lang):
+    """The transferred iOS app shares this policy with the Android game."""
+    if lang == "ar":
+        replacements = {
+            "24 أكتوبر 2026": "27 أكتوبر 2026",
+            "يسري على Android": "يسري على Android وiOS وiPadOS",
+            "(حساب المطوّر OFQ Labs على Google Play)": "(حساب OFQ Labs على Google Play وحساب Ahmed Agamy على App Store)",
+            "<b>لا نجمع بيانات شخصية</b>": "<b>لا نطلب حسابًا أو بيانات اتصال</b>",
+            "معرّف الإعلانات، عنوان IP، بيانات التفاعل مع الإعلانات": "معرّف الجهاز والإعلانات، عنوان IP والموقع التقريبي المستنتج منه، التفاعل مع التطبيق والإعلانات، بيانات الأعطال والأداء",
+            "لعرض الإعلانات وقياسها ومنع الاحتيال. انظر القسم التالي.": "قد تجمعها Google وشركاؤها لعرض الإعلانات وقياسها والتحليلات ومنع الاحتيال وتحسين أداء حزمة الإعلانات. انظر القسم التالي.",
+            "حذف كل بيانات التطبيق من جهازك بحذف التطبيق أو مسح بياناته من إعدادات أندرويد.": "على iPhone وiPad يمكنك السماح بطلب التتبع أو رفضه، وتغيير الإذن من الإعدادات ← الخصوصية والأمان ← التتبع. عند رفضه لا يصل التطبيق إلى معرّف الإعلانات IDFA، وتبقى اللعبة متاحة. احذف البيانات المحلية بحذف التطبيق؛ وعلى أندرويد يمكنك أيضًا مسح بياناته من الإعدادات.",
+            "ويحميها نظام أندرويد.": "ويحميها نظام التشغيل على Android وiOS وiPadOS. تخضع بيانات Google وشركائها لسياسات الخصوصية والاحتفاظ الخاصة بهم، وقد تختلف مدة الاحتفاظ بحسب الغرض ولا نتحكم فيها.",
+        }
+        extra = "عند الموافقة على التتبع قد تربط Google وشركاؤها معرّفات الجهاز والموقع التقريبي وبيانات التفاعل والأداء ببيانات من تطبيقات ومواقع أخرى لأغراض الإعلان وقياسه. لا ترتبط سجلات الأعطال بهويتك، ويبقى تقدّمك وإعداداتك على جهازك."
+    else:
+        replacements = {
+            "October 24, 2026": "October 27, 2026",
+            "Applies to Android": "Applies to Android, iOS and iPadOS",
+            "(developer account OFQ Labs on Google Play)": "(OFQ Labs on Google Play and Ahmed Agamy on the App Store)",
+            "<b>No personal data collected</b>": "<b>No account or contact details requested</b>",
+            "Advertising ID, IP address, ad interaction data": "Device and advertising identifiers, IP address and inferred coarse location, app and ad interactions, crash and performance data",
+            "To serve and measure ads and prevent fraud. See the next section.": "Google and its partners may collect this data for advertising, measurement, analytics, fraud prevention and SDK performance. See below.",
+            "Delete all app data by uninstalling the app or clearing its storage in Android settings.": "On iPhone and iPad you can allow or deny the tracking request and change permission in Settings → Privacy & Security → Tracking. When denied, the app cannot access IDFA and gameplay remains available. Delete local data by deleting the app; on Android you can also clear its storage in Settings.",
+            "protected by Android.": "protected by Android, iOS or iPadOS. Google and its partners retain SDK data under their own privacy and retention policies; the duration depends on its purpose and is not controlled by us.",
+        }
+        extra = "With tracking permission, Google and its partners may link device identifiers, coarse location, interactions and performance data with data from other apps or websites for advertising and measurement. Crash logs are not linked to user identity. Progress and settings stay on your device."
+    for old, new in replacements.items():
+        html = html.replace(old, new)
+    start = html.index('<section class="s" id="ads">')
+    end = html.index('</section>', start)
+    return html[:end] + '<p>' + extra + '</p>' + html[end:]
+
+
 def privacy_ar(pkg, name, accent, kind, glyph):
     secs = [
         ("intro", "من نحن ونطاق السياسة", f"<p>تطبيق «{name}» من تطوير <b><a href='https://ofqventures.com'>OFQ Ventures</a></b> (حساب المطوّر OFQ Labs على Google Play). توضّح هذه السياسة ما يحدث للبيانات عند استخدامك للتطبيق، وتنطبق على التطبيق فقط وليس على مواقع أو خدمات أطراف أخرى.</p>"),
@@ -163,7 +197,7 @@ def privacy_ar(pkg, name, accent, kind, glyph):
     ]
     toc = "".join(f'<li><a href="#{i}">{t}</a></li>' for i, t, _ in secs) + '<li><a href="#contact">التواصل</a></li>'
     body = "".join(f'<section class="s" id="{i}"><h2><span class="num">{n}</span>{t}</h2>{c}</section>' for n, (i, t, c) in enumerate(secs, 1))
-    return (head(f"سياسة الخصوصية — {name}", "ar", accent, f"سياسة الخصوصية لتطبيق {name} من OFQ Ventures")
+    html = (head(f"سياسة الخصوصية — {name}", "ar", accent, f"سياسة الخصوصية لتطبيق {name} من OFQ Ventures")
             + topbar("ar", f"{pkg}-en.html")
             + f"""<main class="wrap"><div class="hero"><div class="app"><span class="badge">{glyph}</span><div><div class="name">{name}</div><div class="pkg">com.appscitadel.{pkg}</div></div></div>
 <h1>سياسة الخصوصية</h1><p class="lead">نحترم خصوصيتك. صُمّم التطبيق ليعمل دون أن يعرف عنك شيئًا، وهنا نشرح ذلك بوضوح ودون تعقيد.</p>
@@ -176,6 +210,7 @@ def privacy_ar(pkg, name, accent, kind, glyph):
 </div></div>{body}
 <section class="s" id="contact"><h2><span class="num">{len(secs)+1}</span>التواصل</h2><div class="contact"><p>لأي سؤال أو طلب بخصوص الخصوصية يسعدنا تواصلك.</p><a class="btn" href="mailto:{EMAIL}?subject={name}">{ICON_MAIL}{EMAIL}</a></div><div class="contact-extra" data-contact-chrome><a href="tel:+201500002663"><bdi dir="ltr">+20 150 000 2663</bdi></a><a href="https://wa.me/201500002663">تواصل على واتساب</a></div></section>
 </div></div></main>""" + footer("ar"))
+    return sabakalemat_platform_policy(html, "ar") if pkg == "sabakalemat" else html
 
 
 def privacy_en(pkg, name_ar, name, accent, kind, glyph):
@@ -201,7 +236,7 @@ def privacy_en(pkg, name_ar, name, accent, kind, glyph):
     ]
     toc = "".join(f'<li><a href="#{i}">{t}</a></li>' for i, t, _ in secs) + '<li><a href="#contact">Contact</a></li>'
     body = "".join(f'<section class="s" id="{i}"><h2><span class="num">{n}</span>{t}</h2>{c}</section>' for n, (i, t, c) in enumerate(secs, 1))
-    return (head(f"Privacy Policy — {name}", "en", accent, f"Privacy policy for {name} by OFQ Ventures")
+    html = (head(f"Privacy Policy — {name}", "en", accent, f"Privacy policy for {name} by OFQ Ventures")
             + topbar("en", f"{pkg}.html")
             + f"""<main class="wrap"><div class="hero"><div class="app"><span class="badge">{glyph}</span><div><div class="name">{name}</div><div class="pkg">com.appscitadel.{pkg}</div></div></div>
 <h1>Privacy Policy</h1><p class="lead">We respect your privacy. The app is designed to work without knowing anything about you, and this page explains that plainly.</p>
@@ -214,6 +249,7 @@ def privacy_en(pkg, name_ar, name, accent, kind, glyph):
 </div></div>{body}
 <section class="s" id="contact"><h2><span class="num">{len(secs)+1}</span>Contact</h2><div class="contact"><p>Questions or requests about privacy? We're happy to help.</p><a class="btn" href="mailto:{EMAIL}?subject={name}">{ICON_MAIL}{EMAIL}</a></div><div class="contact-extra" data-contact-chrome><a href="tel:+201500002663"><bdi dir="ltr">+20 150 000 2663</bdi></a><a href="https://wa.me/201500002663">Chat on WhatsApp</a></div></section>
 </div></div></main>""" + footer("en"))
+    return sabakalemat_platform_policy(html, "en") if pkg == "sabakalemat" else html
 
 
 def ext(html):
