@@ -174,6 +174,29 @@ def sabakalemat_platform_policy(html, lang):
     return html[:end] + '<p>' + extra + '</p>' + html[end:]
 
 
+IOS_APPS = {a["id"] for a in json.loads((ROOT / "apps.json").read_text(encoding="utf8")) if "ios" in a.get("platforms", [])}
+
+
+def ios_policy(html, lang):
+    """Apps that ship on iOS too: pill, Apple tracking prompt and Settings path."""
+    if lang == "ar":
+        pairs = [
+            ("يسري على Android</span>", "يسري على Android وiOS</span>"),
+            ("<li>حذف كل بيانات التطبيق من جهازك بحذف التطبيق أو مسح بياناته من إعدادات أندرويد.</li>", "<li>على iPhone وiPad: يطلب منك التطبيق إذن التتبع (App Tracking Transparency)، ويمكنك رفضه أو تغييره من الإعدادات ← الخصوصية والأمان ← التتبع.</li>\n<li>حذف كل بيانات التطبيق من جهازك بحذف التطبيق أو مسح بياناته من إعدادات أندرويد.</li>"),
+            ("<li>يمكنك تغيير اختيارك في أي وقت", "<li>على iOS يظهر لك طلب إذن التتبع من Apple (ATT) قبل استخدام معرّف الإعلانات IDFA؛ وعند الرفض تظهر إعلانات غير مخصّصة.</li>\n<li>يمكنك تغيير اختيارك في أي وقت"),
+        ]
+    else:
+        pairs = [
+            ("Applies to Android</span>", "Applies to Android and iOS</span>"),
+            ("<li>Delete all app data by uninstalling", "<li>On iPhone and iPad the app asks for tracking permission (App Tracking Transparency); you can deny it or change it in Settings → Privacy & Security → Tracking.</li>\n<li>Delete all app data by uninstalling"),
+            ("<li>You can change your choice at any time", "<li>On iOS, Apple's tracking prompt (ATT) appears before the advertising identifier (IDFA) is used; if you decline, ads are not personalised.</li>\n<li>You can change your choice at any time"),
+        ]
+    for old, new in pairs:
+        assert old in html, old
+        html = html.replace(old, new)
+    return html
+
+
 def privacy_ar(pkg, name, accent, kind, glyph):
     secs = [
         ("intro", "من نحن ونطاق السياسة", f"<p>تطبيق «{name}» من تطوير <b><a href='https://ofqventures.com'>OFQ Ventures</a></b> (حساب المطوّر OFQ Labs على Google Play). توضّح هذه السياسة ما يحدث للبيانات عند استخدامك للتطبيق، وتنطبق على التطبيق فقط وليس على مواقع أو خدمات أطراف أخرى.</p>"),
@@ -210,6 +233,8 @@ def privacy_ar(pkg, name, accent, kind, glyph):
 </div></div>{body}
 <section class="s" id="contact"><h2><span class="num">{len(secs)+1}</span>التواصل</h2><div class="contact"><p>لأي سؤال أو طلب بخصوص الخصوصية يسعدنا تواصلك.</p><a class="btn" href="mailto:{EMAIL}?subject={name}">{ICON_MAIL}{EMAIL}</a></div><div class="contact-extra" data-contact-chrome><a href="tel:+201500002663"><bdi dir="ltr">+20 150 000 2663</bdi></a><a href="https://wa.me/201500002663">تواصل على واتساب</a></div></section>
 </div></div></main>""" + footer("ar"))
+    if pkg in IOS_APPS:
+        html = ios_policy(html, "ar")
     return sabakalemat_platform_policy(html, "ar") if pkg == "sabakalemat" else html
 
 
@@ -249,6 +274,8 @@ def privacy_en(pkg, name_ar, name, accent, kind, glyph):
 </div></div>{body}
 <section class="s" id="contact"><h2><span class="num">{len(secs)+1}</span>Contact</h2><div class="contact"><p>Questions or requests about privacy? We're happy to help.</p><a class="btn" href="mailto:{EMAIL}?subject={name}">{ICON_MAIL}{EMAIL}</a></div><div class="contact-extra" data-contact-chrome><a href="tel:+201500002663"><bdi dir="ltr">+20 150 000 2663</bdi></a><a href="https://wa.me/201500002663">Chat on WhatsApp</a></div></section>
 </div></div></main>""" + footer("en"))
+    if pkg in IOS_APPS:
+        html = ios_policy(html, "en")
     return sabakalemat_platform_policy(html, "en") if pkg == "sabakalemat" else html
 
 

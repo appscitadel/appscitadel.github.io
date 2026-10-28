@@ -412,5 +412,32 @@
     "descEn": "375 Arabic riddles: read the riddle and spell the answer, with hints and a daily gift.",
     "categoryEn": "Riddles",
     "glyph": "ف"
+  },
+  {
+    "id": "fatla",
+    "kind": "game",
+    "nameAr": "فتلة",
+    "nameEn": "Fatla",
+    "taglineAr": "لغز تطريز بروح مصرية",
+    "descAr": "لغز تطريز مصري: فُكّ الخيوط ورتّب البكرات وكمّل اللوحة مرحلة بعد مرحلة.",
+    "category": "ألغاز",
+    "accent": "#C2410C",
+    "icon": "assets/apps/fatla.webp",
+    "iconPng": "assets/apps/fatla.png",
+    "package": "com.appscitadel.fatla",
+    "play": "",
+    "appStore": "",
+    "web": null,
+    "live": false,
+    "featured": false,
+    "order": 92,
+    "taglineEn": "An embroidery puzzle with an Egyptian soul",
+    "descEn": "An Egyptian embroidery puzzle: untangle the threads, sort the spools and finish each panel, level after level.",
+    "categoryEn": "Puzzles",
+    "glyph": "ف",
+    "platforms": [
+      "android",
+      "ios"
+    ]
   }
 ]
