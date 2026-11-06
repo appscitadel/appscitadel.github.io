@@ -199,7 +199,7 @@ def ios_policy(html, lang):
 
 def privacy_ar(pkg, name, accent, kind, glyph):
     secs = [
-        ("intro", "من نحن ونطاق السياسة", f"<p>تطبيق «{name}» من تطوير <b><a href='https://ofqventures.com'>OFQ Ventures</a></b> (حساب المطوّر OFQ Labs على Google Play). توضّح هذه السياسة ما يحدث للبيانات عند استخدامك للتطبيق، وتنطبق على التطبيق فقط وليس على مواقع أو خدمات أطراف أخرى.</p>"),
+        ("intro", "من نحن ونطاق السياسة", f"<p>تطبيق «{name}» من تطوير <b><a href='https://ofqventures.com'>OFQ Ventures</a></b> (حساب المطوّر OFQ Labs على Google Play). توضّح هذه السياسة ما يحدث للبيانات عند استخدامك للتطبيق، وتنطبق على التطبيق فقط وليس على مواقع أو خدمات أطراف أخرى. انظر أيضًا <a href='/terms/{pkg}.html'>شروط الاستخدام</a>.</p>"),
         ("data", "البيانات التي يتعامل معها التطبيق", f"""<p>لا يتطلب التطبيق تسجيل حساب، ولا يطلب منك أي معلومات شخصية.</p>
 <table class="table"><thead><tr><th>نوع البيانات</th><th>الحالة</th><th>التفاصيل</th></tr></thead><tbody>
 <tr><td>الاسم، البريد، رقم الهاتف</td><td><span class="tag no">لا تُجمع</span></td><td>لا يوجد تسجيل دخول أو نماذج.</td></tr>
@@ -240,7 +240,7 @@ def privacy_ar(pkg, name, accent, kind, glyph):
 
 def privacy_en(pkg, name_ar, name, accent, kind, glyph):
     secs = [
-        ("intro", "Who we are and scope", f"<p>{name} ({name_ar}) is developed by <b><a href='https://ofqventures.com/en'>OFQ Ventures</a></b> (developer account OFQ Labs on Google Play). This policy explains what happens to data when you use the app. It covers this app only, not third-party sites or services.</p>"),
+        ("intro", "Who we are and scope", f"<p>{name} ({name_ar}) is developed by <b><a href='https://ofqventures.com/en'>OFQ Ventures</a></b> (developer account OFQ Labs on Google Play). This policy explains what happens to data when you use the app. It covers this app only, not third-party sites or services. See also the <a href='/terms/{pkg}-en.html'>terms of use</a>.</p>"),
         ("data", "Data the app handles", f"""<p>The app does not require an account and never asks for personal information.</p>
 <table class="table"><thead><tr><th>Data type</th><th>Status</th><th>Details</th></tr></thead><tbody>
 <tr><td>Name, email, phone number</td><td><span class="tag no">Not collected</span></td><td>No sign-in and no forms.</td></tr>
@@ -277,6 +277,64 @@ def privacy_en(pkg, name_ar, name, accent, kind, glyph):
     if pkg in IOS_APPS:
         html = ios_policy(html, "en")
     return sabakalemat_platform_policy(html, "en") if pkg == "sabakalemat" else html
+
+
+TERMS_UPDATED_AR = "6 نوفمبر 2026"
+TERMS_UPDATED_EN = "November 6, 2026"
+
+
+def terms_ar(pkg, name, accent, kind, glyph):
+    content = ("<p>الفتاوى في التطبيق منقولة من فتاوى الشيخ المنشورة، وتُعرض للاطلاع والتعلّم. التطبيق جهد غير رسمي ولا يمثّل الشيخ أو أي جهة رسمية، وليس بديلًا عن سؤال أهل العلم في حالتك الخاصة. نبذل جهدنا في دقة النقل، فإن وجدت خطأ فراسلنا لنصححه.</p>"
+               if kind == "reader" else
+               "<p>الألغاز والأسئلة والصور في اللعبة للتسلية والتعلّم. نراجع المحتوى بعناية، فإن وجدت إجابة خاطئة أو صورة غير مناسبة فراسلنا لنصححها.</p>"
+               "<p>العملات والتلميحات والنقاط داخل اللعبة افتراضية: تُكسب باللعب أو بمشاهدة إعلان اختياري، وليس لها قيمة مالية، ولا تُستبدل بمال أو تُنقل إلى شخص آخر.</p>")
+    secs = [
+        ("intro", "الاتفاق ونطاقه", f"<p>هذه شروط استخدام تطبيق «{name}» من تطوير <b><a href='https://ofqventures.com'>OFQ Ventures</a></b> (حساب المطوّر OFQ Labs على Google Play). بتحميل التطبيق أو استخدامه فأنت توافق على هذه الشروط وعلى <a href='/privacy/{pkg}.html'>سياسة الخصوصية</a>. إذا لم توافق عليها فلا تستخدم التطبيق.</p>"),
+        ("license", "ترخيص الاستخدام", "<p>نمنحك ترخيصًا شخصيًا مجانيًا وغير حصري لاستخدام التطبيق على أجهزتك لأغراض غير تجارية. لا يجوز لك نسخ التطبيق أو بيعه أو تعديله أو فك شيفرته أو إعادة نشر محتواه أو استخدامه بطريقة تخالف القانون أو تضر بالتطبيق أو بغيرك.</p>"),
+        ("content", "المحتوى", content),
+        ("ads", "الإعلانات", "<p>التطبيق مجاني ويعرض إعلانات من Google AdMob. الإعلانات مقدَّمة من أطراف أخرى، ولسنا مسؤولين عن محتوى المواقع أو المنتجات التي تعلن عنها. تفاصيل البيانات المستخدمة في الإعلانات في سياسة الخصوصية.</p>"),
+        ("ip", "الملكية الفكرية", "<p>التطبيق وتصميمه وشعاراته ملك لـ OFQ Ventures. الصور المأخوذة من مصادر حرة مذكور أصحابها وتراخيصها داخل التطبيق، وتبقى حقوقها لأصحابها.</p>"),
+        ("warranty", "إخلاء المسؤولية", "<p>نقدّم التطبيق «كما هو» ونعمل على أن يكون صحيحًا ومتاحًا دائمًا، لكننا لا نضمن خلوّه من الأخطاء أو توفّره دون انقطاع. في حدود ما يسمح به القانون لا نتحمّل مسؤولية أي ضرر غير مباشر ينتج عن استخدام التطبيق. لا يحدّ شيء في هذه الشروط من حقوقك التي يكفلها لك قانون حماية المستهلك في بلدك.</p>"),
+        ("changes", "إيقاف التطبيق وتعديل الشروط", "<p>قد نحدّث التطبيق أو نغيّر بعض مزاياه أو نوقفه. وقد نعدّل هذه الشروط، ويظهر تاريخ آخر تحديث أعلى الصفحة، واستمرارك في الاستخدام بعد التعديل يعني موافقتك عليه.</p>"),
+        ("law", "القانون المطبق", "<p>تخضع هذه الشروط لقوانين جمهورية مصر العربية، دون المساس بالقواعد الإلزامية لحماية المستهلك في بلد إقامتك.</p>"),
+    ]
+    toc = "".join(f'<li><a href="#{i}">{t}</a></li>' for i, t, _ in secs) + '<li><a href="#contact">التواصل</a></li>'
+    body = "".join(f'<section class="s" id="{i}"><h2><span class="num">{n}</span>{t}</h2>{c}</section>' for n, (i, t, c) in enumerate(secs, 1))
+    return (head(f"شروط الاستخدام — {name}", "ar", accent, f"شروط استخدام تطبيق {name} من OFQ Ventures")
+            + topbar("ar", f"{pkg}-en.html")
+            + f"""<main class="wrap"><div class="hero"><div class="app"><span class="badge">{glyph}</span><div><div class="name">{name}</div><div class="pkg">com.appscitadel.{pkg}</div></div></div>
+<h1>شروط الاستخدام</h1><p class="lead">شروط بسيطة وواضحة لاستخدام التطبيق، مكتوبة بلغة مفهومة.</p>
+<div class="meta"><span class="pill">آخر تحديث: {TERMS_UPDATED_AR}</span><span class="pill">يسري على Android</span></div></div>
+<div class="grid"><aside class="toc"><div class="t">المحتويات</div><ol>{toc}</ol></aside><div>{body}
+<section class="s" id="contact"><h2><span class="num">{len(secs)+1}</span>التواصل</h2><div class="contact"><p>لأي سؤال عن هذه الشروط أو بلاغ عن محتوى يسعدنا تواصلك.</p><a class="btn" href="mailto:{EMAIL}?subject={name}">{ICON_MAIL}{EMAIL}</a></div><div class="contact-extra" data-contact-chrome><a href="tel:+201500002663"><bdi dir="ltr">+20 150 000 2663</bdi></a><a href="https://wa.me/201500002663">تواصل على واتساب</a></div></section>
+</div></div></main>""" + footer("ar"))
+
+
+def terms_en(pkg, name_ar, name, accent, kind, glyph):
+    content = ("<p>The fatwas in the app are taken from the Sheikh's published fatwas and are shown for reading and learning. The app is an unofficial effort, does not represent the Sheikh or any official body, and is not a substitute for asking a qualified scholar about your own situation. If you find a transcription error, tell us and we will fix it.</p>"
+               if kind == "reader" else
+               "<p>The puzzles, questions and pictures in the game are for entertainment and learning. We review the content carefully; if you find a wrong answer or an unsuitable picture, tell us and we will fix it.</p>"
+               "<p>Coins, hints and points in the game are virtual: you earn them by playing or by watching an optional ad. They have no monetary value and cannot be exchanged for money or transferred to anyone else.</p>")
+    secs = [
+        ("intro", "Agreement and scope", f"<p>These are the terms of use for {name} ({name_ar}), developed by <b><a href='https://ofqventures.com/en'>OFQ Ventures</a></b> (developer account OFQ Labs on Google Play). By downloading or using the app you agree to these terms and to the <a href='/privacy/{pkg}-en.html'>privacy policy</a>. If you do not agree, do not use the app.</p>"),
+        ("license", "Licence", "<p>We grant you a free, personal, non-exclusive licence to use the app on your devices for non-commercial purposes. You may not copy, sell, modify, decompile or republish the app or its content, or use it unlawfully or in a way that harms the app or others.</p>"),
+        ("content", "Content", content),
+        ("ads", "Advertising", "<p>The app is free and shows ads from Google AdMob. Ads come from third parties, and we are not responsible for the content of the sites or products they promote. The data used for ads is described in the privacy policy.</p>"),
+        ("ip", "Intellectual property", "<p>The app, its design and its logos belong to OFQ Ventures. Pictures from free sources are credited with their licences inside the app, and their rights remain with their owners.</p>"),
+        ("warranty", "Disclaimer", "<p>We provide the app \"as is\" and work to keep it correct and available, but we do not guarantee it is error-free or uninterrupted. To the extent the law allows, we are not liable for indirect damage arising from using the app. Nothing in these terms limits the rights your local consumer protection law gives you.</p>"),
+        ("changes", "Changes and discontinuation", "<p>We may update the app, change some of its features or discontinue it. We may also change these terms; the last-updated date appears at the top, and continuing to use the app after a change means you accept it.</p>"),
+        ("law", "Governing law", "<p>These terms are governed by the laws of the Arab Republic of Egypt, without prejudice to the mandatory consumer protection rules of your country of residence.</p>"),
+    ]
+    toc = "".join(f'<li><a href="#{i}">{t}</a></li>' for i, t, _ in secs) + '<li><a href="#contact">Contact</a></li>'
+    body = "".join(f'<section class="s" id="{i}"><h2><span class="num">{n}</span>{t}</h2>{c}</section>' for n, (i, t, c) in enumerate(secs, 1))
+    return (head(f"Terms of Use — {name}", "en", accent, f"Terms of use for {name} by OFQ Ventures")
+            + topbar("en", f"{pkg}.html")
+            + f"""<main class="wrap"><div class="hero"><div class="app"><span class="badge">{glyph}</span><div><div class="name">{name}</div><div class="pkg">com.appscitadel.{pkg}</div></div></div>
+<h1>Terms of Use</h1><p class="lead">Short, plain terms for using the app.</p>
+<div class="meta"><span class="pill">Last updated: {TERMS_UPDATED_EN}</span><span class="pill">Applies to Android</span></div></div>
+<div class="grid"><aside class="toc"><div class="t">CONTENTS</div><ol>{toc}</ol></aside><div>{body}
+<section class="s" id="contact"><h2><span class="num">{len(secs)+1}</span>Contact</h2><div class="contact"><p>Questions about these terms, or want to report content? We're happy to help.</p><a class="btn" href="mailto:{EMAIL}?subject={name}">{ICON_MAIL}{EMAIL}</a></div><div class="contact-extra" data-contact-chrome><a href="tel:+201500002663"><bdi dir="ltr">+20 150 000 2663</bdi></a><a href="https://wa.me/201500002663">Chat on WhatsApp</a></div></section>
+</div></div></main>""" + footer("en"))
 
 
 def ext(html):
@@ -323,6 +381,11 @@ def main():
     for p, n, e, a, k, g in APPS:
         (out / f"{p}.html").write_text(ext(privacy_ar(p, n, a, k, g)), encoding="utf-8")
         (out / f"{p}-en.html").write_text(ext(privacy_en(p, n, e, a, k, g)), encoding="utf-8")
+    terms = ROOT / "terms"
+    terms.mkdir(exist_ok=True)
+    for p, n, e, a, k, g in APPS:
+        (terms / f"{p}.html").write_text(ext(terms_ar(p, n, a, k, g)), encoding="utf-8")
+        (terms / f"{p}-en.html").write_text(ext(terms_en(p, n, e, a, k, g)), encoding="utf-8")
     hub.write_all(json.loads((ROOT / "apps.json").read_text(encoding="utf8")))
     print(f"built {len(APPS)} apps x 2 languages + privacy indexes + /en/ redirect; index.html untouched")
 
