@@ -11,6 +11,9 @@ GAMES = {
     "fakkaha": ("فكّها!", "Fakkaha", "#4E7A2E", True),
     "raflo": ("رافلو", "Raflo", "#8A4A22", False),
     "bisbis": ("بسبس", "Bisbis", "#7a3f22", False),
+    "reefy": ("ريفي سوليتير", "REEFY Solitaire", "#0b3d5c", False),
+    "marblo": ("ماربلو", "MARBLO", "#14102e", False),
+    "harb-elboya": ("حرب البوية", "Harb El Boya", "#7a3f22", False),
 }
 
 
