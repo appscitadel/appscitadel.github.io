@@ -12,6 +12,7 @@ DEV_URL = "https://play.google.com/store/apps/developer?id=OFQ+Labs"
 
 import json
 import hub
+import promo
 
 # One entry per product in apps.json. Privacy pages need every package (live or not) from the OFQ Labs account.
 # Tuple: package, Arabic name, English name, accent, kind ("reader" | "game"), glyph shown in the policy badge
@@ -387,6 +388,7 @@ def main():
         (terms / f"{p}.html").write_text(ext(terms_ar(p, n, a, k, g)), encoding="utf-8")
         (terms / f"{p}-en.html").write_text(ext(terms_en(p, n, e, a, k, g)), encoding="utf-8")
     hub.write_all(json.loads((ROOT / "apps.json").read_text(encoding="utf8")))
+    promo.write(json.loads((ROOT / "apps.json").read_text(encoding="utf8")))
     print(f"built {len(APPS)} apps x 2 languages + privacy indexes + /en/ redirect; index.html untouched")
 
 

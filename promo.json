@@ -1,0 +1,231 @@
+{
+ "v": 1,
+ "updated": "2026-11-09T11:09:49Z",
+ "rotateSeconds": 30,
+ "games": [
+  {
+   "id": "app.timoz.timoz",
+   "platform": "android",
+   "name": {
+    "ar": "تيموز",
+    "en": "TIMOZ"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/timoz.png",
+   "url": "https://play.google.com/store/apps/details?id=app.timoz.timoz",
+   "family": "party",
+   "weight": 2,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.sabakalemat",
+   "platform": "android",
+   "name": {
+    "ar": "سبع كلمات",
+    "en": "Seven Words"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/sabakalemat.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.sabakalemat",
+   "family": "word",
+   "weight": 3,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.asharkalemat",
+   "platform": "android",
+   "name": {
+    "ar": "عشر كلمات",
+    "en": "Ten Words"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/asharkalemat.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.asharkalemat",
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.wasla1",
+   "platform": "android",
+   "name": {
+    "ar": "وصلة التحدي",
+    "en": "Wasla Challenge"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/wasla1.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.wasla1",
+   "family": "word",
+   "weight": 3,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.waslatahady",
+   "platform": "android",
+   "name": {
+    "ar": "تحدي القمة",
+    "en": "Summit Challenge"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/waslatahady.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.waslatahady",
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.linkit",
+   "platform": "android",
+   "name": {
+    "ar": "الكلمة الرابطة",
+    "en": "The Link Word"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/linkit.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.linkit",
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.fourpicword",
+   "platform": "android",
+   "name": {
+    "ar": "أربع صور وكلمة",
+    "en": "4 Pics 1 Word"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/fourpicword.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.fourpicword",
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.fourpicword2",
+   "platform": "android",
+   "name": {
+    "ar": "فطحل الألغاز",
+    "en": "Riddle Master"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/fourpicword2.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.fourpicword2",
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.sorteen_weklma",
+   "platform": "android",
+   "name": {
+    "ar": "صورتين وكلمة",
+    "en": "2 Pics 1 Word"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/sorteen_weklma.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.sorteen_weklma",
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.logzweklma2",
+   "platform": "android",
+   "name": {
+    "ar": "قطار الألغاز",
+    "en": "Riddle Train"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/logzweklma2.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.logzweklma2",
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.abaqeragame",
+   "platform": "android",
+   "name": {
+    "ar": "رحلة العباقرة",
+    "en": "Geniuses Journey"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/abaqeragame.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.abaqeragame",
+   "family": "trivia",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.negm",
+   "platform": "android",
+   "name": {
+    "ar": "سوق الكلمات",
+    "en": "Word Market"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/negm.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.negm",
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.mathpuzzle",
+   "platform": "android",
+   "name": {
+    "ar": "خلية الأرقام",
+    "en": "Number Hive"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/mathpuzzle.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.mathpuzzle",
+   "family": "math",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.ehzerla3eb",
+   "platform": "android",
+   "name": {
+    "ar": "احزر اللاعب من الصورة",
+    "en": "Guess the Player from the Photo"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/ehzerla3eb.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.ehzerla3eb",
+   "family": "football",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.ehzerla3eb2",
+   "platform": "android",
+   "name": {
+    "ar": "اختبار كورة",
+    "en": "Football Quiz"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/ehzerla3eb2.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.ehzerla3eb2",
+   "family": "football",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.appscitadel.fatawyibnbaz",
+   "platform": "android",
+   "name": {
+    "ar": "فتاوى ابن باز",
+    "en": "Fatawa Ibn Baz"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/fatawyibnbaz.png",
+   "url": "https://play.google.com/store/apps/details?id=com.appscitadel.fatawyibnbaz",
+   "family": "religious",
+   "weight": 3,
+   "countries": null,
+   "active": true
+  }
+ ]
+}
