@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 SITE = "https://apps.ofqventures.com"
 OUT = ROOT / "promo.json"
-ROTATE_SECONDS = 30
+ROTATE_SECONDS = 15
 
 # Family = the `appFamily` constant in each app's lib/config.dart; an app shows its own family first.
 FAMILY_BY_ID = {
