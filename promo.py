@@ -4,7 +4,7 @@ Called by build.py. Schema v1 (apps read only these keys and ignore anything new
   v, updated, rotateSeconds, games[] = {id, platform, name{<21 locales>}, icon, url, family, weight, countries, active}
 name carries every key in LOCALES (always ar and en); clients pick the app locale, then en, then ar.
 Names live in promo_names.json (keyed by apps.json id); a listed game missing a locale fails the build.
-Only apps.json entries with live:true and a Play URL are listed, and only when their icon file exists in the site.
+Only apps.json entries with live:true and a Play or App Store URL are listed, and only when their icon file exists in the site.
 Edit apps.json (or the maps below), run `python -X utf8 build.py`, commit, push: every app picks it up within 6 h.
 """
 import json
@@ -55,7 +55,7 @@ def games(apps):
     table = json.loads(NAMES.read_text(encoding="utf8")) if NAMES.exists() else {}
     out, skipped = [], []
     for a in sorted(apps, key=lambda a: a.get("order", 999)):
-        if not a.get("live") or not a.get("play"):
+        if not a.get("live") or not (a.get("play") or a.get("appStore")):
             continue
         icon = a.get("iconPng") or ""
         if not icon or not (ROOT / icon).is_file():
@@ -63,10 +63,15 @@ def games(apps):
             continue
         out.append({
             "id": a["package"],
-            "platform": "android",
+            # Back-compat for app builds before 2026-11-10: they read `platform` + `url` and keep "android" only.
+            "platform": "android" if a.get("play") else "ios",
             "name": names_for(a, table),
             "icon": f"{SITE}/{icon}",
-            "url": a["play"],
+            "url": a.get("play") or a.get("appStore"),
+            # Where the game is deployed (owner rule: default android). Apps show only games deployed on their own
+            # platform, opening urls[platform]: an iPhone sees App Store games only.
+            "deployed": [p for p, u in (("android", a.get("play")), ("ios", a.get("appStore"))) if u],
+            "urls": {p: u for p, u in (("android", a.get("play")), ("ios", a.get("appStore"))) if u},
             "family": FAMILY_BY_ID.get(a["id"], FAMILY_BY_CATEGORY.get(a.get("category"), "word")),
             "weight": WEIGHT.get(a["id"], 1),
             "countries": None,

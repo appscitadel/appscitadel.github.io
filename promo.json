@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-09T12:53:21Z",
+ "updated": "2026-11-10T19:22:50Z",
  "rotateSeconds": 15,
  "games": [
   {
@@ -31,6 +31,14 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/timoz.png",
    "url": "https://play.google.com/store/apps/details?id=app.timoz.timoz",
+   "deployed": [
+    "android",
+    "ios"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=app.timoz.timoz",
+    "ios": "https://apps.apple.com/app/id6824746635"
+   },
    "family": "party",
    "weight": 2,
    "countries": null,
@@ -64,6 +72,14 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/sabakalemat.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.sabakalemat",
+   "deployed": [
+    "android",
+    "ios"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.sabakalemat",
+    "ios": "https://apps.apple.com/app/id1616546635"
+   },
    "family": "word",
    "weight": 3,
    "countries": null,
@@ -97,6 +113,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/asharkalemat.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.asharkalemat",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.asharkalemat"
+   },
    "family": "word",
    "weight": 1,
    "countries": null,
@@ -130,6 +152,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/wasla1.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.wasla1",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.wasla1"
+   },
    "family": "word",
    "weight": 3,
    "countries": null,
@@ -163,6 +191,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/waslatahady.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.waslatahady",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.waslatahady"
+   },
    "family": "word",
    "weight": 1,
    "countries": null,
@@ -196,6 +230,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/linkit.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.linkit",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.linkit"
+   },
    "family": "word",
    "weight": 1,
    "countries": null,
@@ -229,6 +269,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/fourpicword.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.fourpicword",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.fourpicword"
+   },
    "family": "word",
    "weight": 1,
    "countries": null,
@@ -262,6 +308,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/fourpicword2.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.fourpicword2",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.fourpicword2"
+   },
    "family": "word",
    "weight": 1,
    "countries": null,
@@ -295,6 +347,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/sorteen_weklma.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.sorteen_weklma",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.sorteen_weklma"
+   },
    "family": "word",
    "weight": 1,
    "countries": null,
@@ -328,6 +386,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/logzweklma2.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.logzweklma2",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.logzweklma2"
+   },
    "family": "word",
    "weight": 1,
    "countries": null,
@@ -361,6 +425,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/abaqeragame.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.abaqeragame",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.abaqeragame"
+   },
    "family": "trivia",
    "weight": 1,
    "countries": null,
@@ -394,6 +464,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/negm.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.negm",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.negm"
+   },
    "family": "word",
    "weight": 1,
    "countries": null,
@@ -427,6 +503,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/mathpuzzle.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.mathpuzzle",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.mathpuzzle"
+   },
    "family": "math",
    "weight": 1,
    "countries": null,
@@ -460,6 +542,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/ehzerla3eb.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.ehzerla3eb",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.ehzerla3eb"
+   },
    "family": "football",
    "weight": 1,
    "countries": null,
@@ -493,6 +581,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/ehzerla3eb2.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.ehzerla3eb2",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.ehzerla3eb2"
+   },
    "family": "football",
    "weight": 1,
    "countries": null,
@@ -526,8 +620,404 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/fatawyibnbaz.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.fatawyibnbaz",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.fatawyibnbaz"
+   },
    "family": "religious",
    "weight": 3,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.ofqventures.jamout",
+   "platform": "android",
+   "name": {
+    "en": "JAM OUT",
+    "ar": "جام أوت",
+    "de": "JAM OUT",
+    "es": "JAM OUT",
+    "fa": "JAM OUT",
+    "fr": "JAM OUT",
+    "hi": "JAM OUT",
+    "id": "JAM OUT",
+    "it": "JAM OUT",
+    "ja": "JAM OUT",
+    "ko": "JAM OUT",
+    "ms": "JAM OUT",
+    "nl": "JAM OUT",
+    "pl": "JAM OUT",
+    "pt": "JAM OUT",
+    "ru": "JAM OUT",
+    "th": "JAM OUT",
+    "tr": "JAM OUT",
+    "vi": "JAM OUT",
+    "zh-CN": "JAM OUT",
+    "zh-TW": "JAM OUT"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/jamout.png",
+   "url": "https://play.google.com/store/apps/details?id=com.ofqventures.jamout",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.ofqventures.jamout"
+   },
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.ofqventures.belya",
+   "platform": "android",
+   "name": {
+    "en": "Belya",
+    "ar": "بلية",
+    "de": "Belya",
+    "es": "Belya",
+    "fa": "Belya",
+    "fr": "Belya",
+    "hi": "Belya",
+    "id": "Belya",
+    "it": "Belya",
+    "ja": "Belya",
+    "ko": "Belya",
+    "ms": "Belya",
+    "nl": "Belya",
+    "pl": "Belya",
+    "pt": "Belya",
+    "ru": "Belya",
+    "th": "Belya",
+    "tr": "Belya",
+    "vi": "Belya",
+    "zh-CN": "Belya",
+    "zh-TW": "Belya"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/belya.png",
+   "url": "https://play.google.com/store/apps/details?id=com.ofqventures.belya",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.ofqventures.belya"
+   },
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.ofqventures.shai",
+   "platform": "android",
+   "name": {
+    "en": "Shai",
+    "ar": "شاي",
+    "de": "Shai",
+    "es": "Shai",
+    "fa": "Shai",
+    "fr": "Shai",
+    "hi": "Shai",
+    "id": "Shai",
+    "it": "Shai",
+    "ja": "Shai",
+    "ko": "Shai",
+    "ms": "Shai",
+    "nl": "Shai",
+    "pl": "Shai",
+    "pt": "Shai",
+    "ru": "Shai",
+    "th": "Shai",
+    "tr": "Shai",
+    "vi": "Shai",
+    "zh-CN": "Shai",
+    "zh-TW": "Shai"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/shai.png",
+   "url": "https://play.google.com/store/apps/details?id=com.ofqventures.shai",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.ofqventures.shai"
+   },
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.ofqventures.fazzora",
+   "platform": "android",
+   "name": {
+    "en": "Fazzora",
+    "ar": "فزورة",
+    "de": "Fazzora",
+    "es": "Fazzora",
+    "fa": "Fazzora",
+    "fr": "Fazzora",
+    "hi": "Fazzora",
+    "id": "Fazzora",
+    "it": "Fazzora",
+    "ja": "Fazzora",
+    "ko": "Fazzora",
+    "ms": "Fazzora",
+    "nl": "Fazzora",
+    "pl": "Fazzora",
+    "pt": "Fazzora",
+    "ru": "Fazzora",
+    "th": "Fazzora",
+    "tr": "Fazzora",
+    "vi": "Fazzora",
+    "zh-CN": "Fazzora",
+    "zh-TW": "Fazzora"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/fazzora.png",
+   "url": "https://play.google.com/store/apps/details?id=com.ofqventures.fazzora",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.ofqventures.fazzora"
+   },
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.ofqventures.miyamiya",
+   "platform": "android",
+   "name": {
+    "en": "Miya Miya",
+    "ar": "مية مية",
+    "de": "Miya Miya",
+    "es": "Miya Miya",
+    "fa": "Miya Miya",
+    "fr": "Miya Miya",
+    "hi": "Miya Miya",
+    "id": "Miya Miya",
+    "it": "Miya Miya",
+    "ja": "Miya Miya",
+    "ko": "Miya Miya",
+    "ms": "Miya Miya",
+    "nl": "Miya Miya",
+    "pl": "Miya Miya",
+    "pt": "Miya Miya",
+    "ru": "Miya Miya",
+    "th": "Miya Miya",
+    "tr": "Miya Miya",
+    "vi": "Miya Miya",
+    "zh-CN": "Miya Miya",
+    "zh-TW": "Miya Miya"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/miyamiya.png",
+   "url": "https://play.google.com/store/apps/details?id=com.ofqventures.miyamiya",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.ofqventures.miyamiya"
+   },
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.ofqventures.bisbis",
+   "platform": "android",
+   "name": {
+    "en": "Bisbis",
+    "ar": "بسبس",
+    "de": "Bisbis",
+    "es": "Bisbis",
+    "fa": "Bisbis",
+    "fr": "Bisbis",
+    "hi": "Bisbis",
+    "id": "Bisbis",
+    "it": "Bisbis",
+    "ja": "Bisbis",
+    "ko": "Bisbis",
+    "ms": "Bisbis",
+    "nl": "Bisbis",
+    "pl": "Bisbis",
+    "pt": "Bisbis",
+    "ru": "Bisbis",
+    "th": "Bisbis",
+    "tr": "Bisbis",
+    "vi": "Bisbis",
+    "zh-CN": "Bisbis",
+    "zh-TW": "Bisbis"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/bisbis.png",
+   "url": "https://play.google.com/store/apps/details?id=com.ofqventures.bisbis",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.ofqventures.bisbis"
+   },
+   "family": "word",
+   "weight": 1,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.ofqventures.raflo",
+   "platform": "android",
+   "name": {
+    "en": "Raflo",
+    "ar": "رافلو",
+    "de": "Raflo",
+    "es": "Raflo",
+    "fa": "Raflo",
+    "fr": "Raflo",
+    "hi": "Raflo",
+    "id": "Raflo",
+    "it": "Raflo",
+    "ja": "Raflo",
+    "ko": "Raflo",
+    "ms": "Raflo",
+    "nl": "Raflo",
+    "pl": "Raflo",
+    "pt": "Raflo",
+    "ru": "Raflo",
+    "th": "Raflo",
+    "tr": "Raflo",
+    "vi": "Raflo",
+    "zh-CN": "Raflo",
+    "zh-TW": "Raflo"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/raflo.png",
+   "url": "https://play.google.com/store/apps/details?id=com.ofqventures.raflo",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.ofqventures.raflo"
+   },
+   "family": "word",
+   "weight": 2,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "com.ofqventures.fakkaha",
+   "platform": "android",
+   "name": {
+    "en": "Fakkaha",
+    "ar": "فكّها!",
+    "de": "Fakkaha",
+    "es": "Fakkaha",
+    "fa": "Fakkaha",
+    "fr": "Fakkaha",
+    "hi": "Fakkaha",
+    "id": "Fakkaha",
+    "it": "Fakkaha",
+    "ja": "Fakkaha",
+    "ko": "Fakkaha",
+    "ms": "Fakkaha",
+    "nl": "Fakkaha",
+    "pl": "Fakkaha",
+    "pt": "Fakkaha",
+    "ru": "Fakkaha",
+    "th": "Fakkaha",
+    "tr": "Fakkaha",
+    "vi": "Fakkaha",
+    "zh-CN": "Fakkaha",
+    "zh-TW": "Fakkaha"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/fakkaha.png",
+   "url": "https://play.google.com/store/apps/details?id=com.ofqventures.fakkaha",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.ofqventures.fakkaha"
+   },
+   "family": "word",
+   "weight": 2,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "app.timoz.lammah",
+   "platform": "android",
+   "name": {
+    "en": "Lammah",
+    "ar": "لمّاح",
+    "de": "Lammah",
+    "es": "Lammah",
+    "fa": "Lammah",
+    "fr": "Lammah",
+    "hi": "Lammah",
+    "id": "Lammah",
+    "it": "Lammah",
+    "ja": "Lammah",
+    "ko": "Lammah",
+    "ms": "Lammah",
+    "nl": "Lammah",
+    "pl": "Lammah",
+    "pt": "Lammah",
+    "ru": "Lammah",
+    "th": "Lammah",
+    "tr": "Lammah",
+    "vi": "Lammah",
+    "zh-CN": "Lammah",
+    "zh-TW": "Lammah"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/lammah.png",
+   "url": "https://play.google.com/store/apps/details?id=app.timoz.lammah",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=app.timoz.lammah"
+   },
+   "family": "word",
+   "weight": 2,
+   "countries": null,
+   "active": true
+  },
+  {
+   "id": "app.timoz.harrif",
+   "platform": "ios",
+   "name": {
+    "en": "Harrif",
+    "ar": "حرّيف",
+    "de": "Harrif",
+    "es": "Harrif",
+    "fa": "Harrif",
+    "fr": "Harrif",
+    "hi": "Harrif",
+    "id": "Harrif",
+    "it": "Harrif",
+    "ja": "Harrif",
+    "ko": "Harrif",
+    "ms": "Harrif",
+    "nl": "Harrif",
+    "pl": "Harrif",
+    "pt": "Harrif",
+    "ru": "Harrif",
+    "th": "Harrif",
+    "tr": "Harrif",
+    "vi": "Harrif",
+    "zh-CN": "Harrif",
+    "zh-TW": "Harrif"
+   },
+   "icon": "https://apps.ofqventures.com/assets/apps/harrif.png",
+   "url": "https://apps.apple.com/app/id6829418292",
+   "deployed": [
+    "ios"
+   ],
+   "urls": {
+    "ios": "https://apps.apple.com/app/id6829418292"
+   },
+   "family": "word",
+   "weight": 1,
    "countries": null,
    "active": true
   },
@@ -559,6 +1049,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/hangman1.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.hangman1",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.hangman1"
+   },
    "family": "word",
    "weight": 1,
    "countries": null,
@@ -592,6 +1088,12 @@
    },
    "icon": "https://apps.ofqventures.com/assets/apps/logzweklma1.png",
    "url": "https://play.google.com/store/apps/details?id=com.appscitadel.logzweklma1",
+   "deployed": [
+    "android"
+   ],
+   "urls": {
+    "android": "https://play.google.com/store/apps/details?id=com.appscitadel.logzweklma1"
+   },
    "family": "word",
    "weight": 1,
    "countries": null,
