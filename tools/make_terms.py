@@ -14,6 +14,7 @@ GAMES = {
     "reefy": ("ريفي سوليتير", "REEFY Solitaire", "#0b3d5c", False),
     "marblo": ("ماربلو", "MARBLO", "#14102e", False),
     "harb-elboya": ("حرب البوية", "Harb El Boya", "#7a3f22", False),
+    "lammah": ("لمّاح", "Lammah", "#2563eb", False),
 }
 
 
