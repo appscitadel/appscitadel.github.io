@@ -20,6 +20,7 @@ GAMES = {
     "fogwick": ("فوجويك", "FOGWICK", "#2b3a4a", False),
     "tanglo": ("تانجلو", "TANGLO", "#8f5322", False),
     "buzzle": ("بازل", "BUZZLE", "#d99a1e", False),
+    "flingo": ("فلينجو", "FLINGO", "#e8641e", False),
 }
 
 
