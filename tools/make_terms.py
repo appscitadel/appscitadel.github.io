@@ -16,6 +16,7 @@ GAMES = {
     "harb-elboya": ("حرب البوية", "Harb El Boya", "#7a3f22", False),
     "lammah": ("لمّاح", "Lammah", "#2563eb", False),
     "triplo": ("تريبلو", "TRIPLO", "#2b1b5e", False),
+    "nudgo": ("ندجو", "NUDGO", "#0f2e31", False),
 }
 
 
