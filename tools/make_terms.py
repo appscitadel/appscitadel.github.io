@@ -22,6 +22,7 @@ GAMES = {
     "buzzle": ("بازل", "BUZZLE", "#d99a1e", False),
     "flingo": ("فلينجو", "FLINGO", "#e8641e", False),
     "trappy": ("ترابي", "TRAPPY", "#2b1b3d", False),
+    "mamalik": ("مماليك", "MAMALIK", "#1d2b5e", False),
 }
 
 
