@@ -21,6 +21,7 @@ GAMES = {
     "tanglo": ("تانجلو", "TANGLO", "#8f5322", False),
     "buzzle": ("بازل", "BUZZLE", "#d99a1e", False),
     "flingo": ("فلينجو", "FLINGO", "#e8641e", False),
+    "trappy": ("ترابي", "TRAPPY", "#2b1b3d", False),
 }
 
 
