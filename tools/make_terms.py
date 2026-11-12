@@ -23,6 +23,7 @@ GAMES = {
     "flingo": ("فلينجو", "FLINGO", "#e8641e", False),
     "trappy": ("ترابي", "TRAPPY", "#2b1b3d", False),
     "mamalik": ("مماليك", "MAMALIK", "#1d2b5e", False),
+    "harat": ("حارة الحروف", "Harat Al Horof", "#7b1e3a", False),
 }
 
 
