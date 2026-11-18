@@ -703,5 +703,31 @@
     "platforms": [
       "ios"
     ]
+  },
+  {
+    "id": "asaya",
+    "kind": "game",
+    "nameAr": "عصاية",
+    "nameEn": "Asaya",
+    "taglineAr": "مغامرة أبطال الستيك",
+    "descAr": "لعبة أكشن خفيفة: بطل عصاية بيعدّي ٦ عوالم، يضرب الأعداء ويوقع الزعماء ويجمع الترقيات.",
+    "category": "أكشن",
+    "accent": "#241a5c",
+    "icon": "assets/apps/asaya.webp",
+    "iconPng": "assets/apps/asaya.png",
+    "package": "com.ofqventures.asaya",
+    "play": "https://play.google.com/store/apps/details?id=com.ofqventures.asaya",
+    "appStore": "",
+    "web": null,
+    "live": false,
+    "featured": false,
+    "order": 93,
+    "taglineEn": "Stick-hero adventure",
+    "descEn": "Light action: a stick hero fights through 6 worlds, beats the bosses and collects upgrades.",
+    "categoryEn": "Action",
+    "glyph": "ع",
+    "platforms": [
+      "android"
+    ]
   }
 ]
