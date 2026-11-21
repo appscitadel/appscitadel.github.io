@@ -745,7 +745,7 @@
   "play": "https://play.google.com/store/apps/details?id=com.ofqventures.sandouk",
   "appStore": "",
   "web": null,
-  "live": false,
+  "live": true,
   "featured": false,
   "order": 94,
   "taglineEn": "Egyptian puzzle stories",
