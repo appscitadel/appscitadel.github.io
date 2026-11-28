@@ -755,5 +755,31 @@
   "platforms": [
    "android"
   ]
+ },
+ {
+  "id": "wordova",
+  "kind": "game",
+  "nameAr": "WORDOVA",
+  "nameEn": "WORDOVA",
+  "taglineAr": "ألغاز كلمات بـ ٢٠ لغة",
+  "descAr": "لعبة كلمات وصور: ٤٠٠ مرحلة لكل لغة، ١٢ نوع سؤال (صور، حروف، بحث، أعلام…)، تحدي يومي، ووضع لتعلّم لغة تانية.",
+  "category": "ألغاز",
+  "accent": "#1d2a78",
+  "icon": "assets/apps/wordova.webp",
+  "iconPng": "assets/apps/wordova.png",
+  "package": "com.ofqventures.wordova",
+  "play": "https://play.google.com/store/apps/details?id=com.ofqventures.wordova",
+  "appStore": "",
+  "web": null,
+  "live": false,
+  "featured": false,
+  "order": 95,
+  "taglineEn": "Word puzzles in 20 languages",
+  "descEn": "Word and picture puzzles: 400 levels per language, 12 question types (pictures, letters, word search, flags…), a daily challenge and a learn-a-language mode.",
+  "categoryEn": "Puzzle",
+  "glyph": "W",
+  "platforms": [
+   "android"
+  ]
  }
 ]
